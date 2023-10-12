@@ -1,0 +1,16 @@
+Model : 3D Vision Transformer + AutoEncoder
+
+Field : Medical AI
+
+Data Domain : 3D image Based on Brain MRI
+
+Task : Classification, Segmentation, Prediction
+
+Our goal
+
+
+MRI 기반 Brain 3D Deep Learning Model을 활용하여 
+
+Glioblastoma(교모세포종) 환자의 Tumor와 Edema를 정밀한 Segmentation & Classification 하여
+
+정확한 진단에 도움을 주고 결과적으로 환자의 생존율 향상에 기여하는 것입니다.
