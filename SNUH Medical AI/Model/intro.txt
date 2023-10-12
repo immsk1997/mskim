@@ -6,9 +6,9 @@ Data Domain : 3D image Based on Brain MRI
 
 Task : Classification, Segmentation, Prediction
 
-Our goal
+Role : MRI 기반 Brain 3D Deep Learning Model 활용하여 생존 분석 및 예측
 
-MRI 기반 Brain 3D Deep Learning Model을 활용하여 
+Our goal
 
 Glioblastoma(교모세포종) 환자의 Tumor와 Edema를 정밀한 Segmentation & Classification 하여
 
