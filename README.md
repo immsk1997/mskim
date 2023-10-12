@@ -1,6 +1,6 @@
 # Minsoo Kim, B.S. # 
 
-# Data Scientist & AI #
+## Data Scientist & AI ##
 
 One of my strengths is my diverse background, which allows me to tackle tasks in various fields such as manufacturing, finance, and healthcare. I've worked on a wide range of data domains, providing a solid foundation for my capabilities.
 
