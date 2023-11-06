@@ -1,11 +1,28 @@
-# Minsoo Kim, B.S. # 
+## Min Soo Kim, Bachelor of Science (BS)
 
-## Data Scientist & AI ##
 
-One of my strengths is my diverse background, which allows me to tackle tasks in various fields such as manufacturing, finance, and healthcare. I've worked on a wide range of data domains, providing a solid foundation for my capabilities.
+### Data Science (Data Analystic Engineer & AI)
 
-I embarked on my career as an AI researcher by performing a 2D Image-Classification Task based on secondary battery technology, specifically focusing on identifying defects in high-precision electric vehicle batteries. I made use of pre-trained models and optimization techniques to start my career in this field.
 
-Subsequently, I worked as a big data analyst and engineer in the finance AI division at NCSOFT. Initially, I classified various asset classes and built technical indicators to establish risk-diversified asset portfolios. Eventually, I developed a global stock trading market analysis module based on Multi-Factor and tick data, integrating it with an RDBMS. During the process of transitioning to a distributed processing framework, I achieved a more than 60-fold improvement in time efficiency and successfully deployed it as an operational module.
+Hello, my name is Min Soo Kim.
 
-Currently, I am affiliated with the Seoul National University Hospital's Department of Radiology AI research group. I am actively involved in developing technology using MR-based 3D image deep learning models to accurately diagnose tumors and edema in patients with chondrosarcoma. Ultimately, my goal is to contribute to improving patient survival rates through this technology.
+
+One of my strengths is that I have worked with diverse data domains in various fields. I conducted a 2D Image-Classification Task on electric vehicle batteries, focusing on "High-Precision Electric Vehicle Battery Defect Classification." I utilized and optimized pre-trained models in the Tensorflow framework for this task.
+
+
+Subsequently, I worked as a Data Architect in the NCSoft Financial AI department, where I primarily handled big data design tasks. I classified various asset classes for algorithmic stock trading and built technical indicators. 
+
+
+In the end, I designed a pipeline for analyzing the structure of the domestic '''KOSPI 200 and KOSDAQ 150 stock markets based on tick data and related databases'''. During the process of transitioning to a distributed processing framework within the Apache Zeppelin environment in Python, 
+
+"""I achieved more than a 60-fold improvement in time efficiency and successfully migrated it to the production environment."""
+
+
+Currently, I am working as a researcher in the Department of Radiology at Seoul National University Hospital. I am conducting research on improving the performance of a 3D CNN deep learning model for patient prognosis prediction based on MRI brain tumor images and exploring ways to expand it to multi-modal data. 
+
+
+Also I contributed as a co-author to an SCIE paper on a study investigating whether the thickness of the frontal lobe interacts with age to be a significant prognostic indicator for oligodendroglioma patients and played a role in drafting the initial version of the paper.
+
+
+
+
