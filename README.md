@@ -16,7 +16,7 @@ In the end, I designed a pipeline for analyzing the structure of the domestic ``
 *"I achieved more than a 60-fold improvement in time efficiency and successfully migrated it to the production environment."*
 
 
-Currently, I am working as a ```AI researcher``` in the **Department of Radiology at Seoul National University Hospital**. I am conducting research on improving the performance of a 3D CNN deep learning model for patient prognosis prediction based on ```MRI brain tumor images``` and exploring ways to expand it to multi-modal data. 
+Currently, I am working as a ```AI researcher``` in the **Department of Radiology at Seoul National University Hospital**. I am conducting research on improving the performance of a 3D CNN deep learning model for patient prognosis prediction based on ```3D MRI brain image``` and exploring ways to expand it to multi-modal data. 
 
 
 Also I contributed as a ```co-author``` to an SCIE paper on a study investigating whether the thickness of the frontal lobe interacts with age to be a significant prognostic indicator for oligodendroglioma patients and played a role in drafting the initial version of the paper.
