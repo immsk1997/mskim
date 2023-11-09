@@ -2,7 +2,11 @@
 
 ### **≪Achivement≫**
 Title : 초정밀 배터리 단자 불량 유형 판정 딥러닝 모델 최적화
+
+
 Prize : 한국교통대학교 산업공학과 컨퍼런스 대상 (공과대학장)
+
+
 keywords : 2D-CNN, Image-classification
 
 <img src ="https://github.com/immsk1997/mskim/blob/main/KNUT%20AI%20Laboratory/Paper/%ED%95%9C%EA%B5%AD%EA%B5%90%ED%86%B5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%BB%A8%ED%8D%BC%EB%9F%B0%EC%8A%A4%20%EB%8C%80%EC%83%81.png" width="500" height="500">
