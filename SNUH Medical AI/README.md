@@ -23,7 +23,7 @@ Title : Added Prognostic Value of 3D Deep Learning-Derived Features from Preoper
 
 Title : Temporal Muscle Thickness (TMT) as a Supplementary Prognostic Indicator in Glioblastoma Patients Survivial: The Interplay with Age
 
-<a href="https://github.com/immsk1997/mskim/blob/main/SNUH%20Medical%20AI/GBM%20Survival/Statistics/ASNR%20Abstract.pdf">**Click Abstract (2024 ASNR Waiting For Approval)**</a>
+<a href="https://github.com/immsk1997/mskim/blob/main/SNUH%20Medical%20AI/Research%20(GBM)/Statistics/ASNR%20Abstract.pdf">**Click Abstract (2024 ASNR Waiting For Approval)**</a>
 
 
 ≫ Role : Write the first draft of Manuscript (co-Author)
