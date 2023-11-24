@@ -2,6 +2,21 @@
 
 ## Min Soo Kim, Bachelor of Science (BS)
 
+### Shortcuts
+
+**Statistics (SNUH)**
+
+<a href="https://github.com/immsk1997/mskim/blob/main/SNUH%20Medical%20AI/GBM%20Survival/Statistics/ASNR%20Abstract.pdf">**Click Abstract (2024 ASNR Waiting For Approval)**</a>
+
+
+**AI (SNUH)**
+
+<a href="https://github.com/immsk1997/3D_MRI_survival_glioma">*SNUH GBM Survival AI Project (Fork)*</a>
+
+if you can't access, please visit <a href="https://github.com/kyuchoi/3D_MRI_survival_glioma">*Preoperative MRI Survival glioma Official Repository (Original)*</a>
+
+### Introduce
+
 Hello, my name is Min Soo Kim.
 
 
@@ -20,7 +35,4 @@ Currently, I am working as a ```AI researcher``` in the **Department of Radiolog
 
 
 Also I contributed as a ```co-author``` to an SCIE paper on a study investigating whether the thickness of the frontal lobe interacts with age to be a significant prognostic indicator for oligodendroglioma patients and played a role in drafting the initial version of the paper.
-
-
-
 
