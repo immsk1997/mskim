@@ -6,7 +6,7 @@
 
 **Statistics (SNUH)**
 
-<a href="https://github.com/immsk1997/mskim/blob/main/SNUH%20Medical%20AI/GBM%20Survival/Statistics/ASNR%20Abstract.pdf">**Click Abstract (2024 ASNR Waiting For Approval)**</a>
+<a href="https://github.com/immsk1997/mskim/blob/main/SNUH%20Medical%20AI/Research%20(GBM)/Statistics/ASNR%20Abstract.pdf">**Click Abstract (2024 ASNR Waiting For Approval)**</a>
 
 
 **AI (SNUH)**
