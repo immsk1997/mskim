@@ -1,8 +1,8 @@
-# Data Scientist (Data Science & AI)
+# Curriculum Vitae (Min Soo Kim)
 
-## Min Soo Kim, Bachelor of Science (BS)
+## Bachelor of Science, Department of Industry Engineering.
 
-### Shortcuts
+## Shortcuts
 
 **Statistics (SNUH)**
 
@@ -13,9 +13,9 @@
 
 <a href="https://github.com/immsk1997/3D_MRI_survival_glioma">*SNUH GBM Survival AI Project (Fork)*</a>
 
-if you can't access, please visit <a href="https://github.com/kyuchoi/3D_MRI_survival_glioma">*Preoperative MRI Survival glioma Official Repository (Original)*</a>
+if you can't access, please visit <a href="https://github.com/kyuchoi/3D_MRI_survival_glioma">*"Preoperative MRI Survival glioma Official Repository (Original)"*</a>
 
-### Introduce
+## Introduce
 
 Hello, my name is Min Soo Kim.
 
