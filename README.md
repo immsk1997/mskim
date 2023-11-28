@@ -17,7 +17,7 @@ After Published, I made this Repository (**AICON lead by SNUH Prof. K.S Choi.**)
 
 Recently, I derived results from New Data and developing 3D ViT Model.
 
-<a href="https://github.com/immsk1997/mskim/tree/main/SNUH%20Medical%20AI/Research%20(GBM)/AI">**Click 3D ViT Model & SNUH GBM Survival AI Model New Data Results(SEResNext50)**
+<a href="https://github.com/immsk1997/mskim/tree/main/SNUH%20Medical%20AI/Research%20(GBM)/AI">**Click 3D ViT Model & SNUH GBM Survival AI Model New Data Results (SEResNext50)**
 
 
 ## Introduce
