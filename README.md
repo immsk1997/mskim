@@ -10,10 +10,14 @@
 
 
 **AI (SNUH)**
+AICON by SNUH Prof. K.S Choi. After Published, I made this Repository
 
-<a href="https://github.com/immsk1997/3D_MRI_survival_glioma">*SNUH GBM Survival AI Project (Fork)*</a>
+<a href="https://github.com/kyuchoi/3D_MRI_survival_glioma">*Preoperative MRI SNUH Survival glioma Official Repository (Original)*</a>
 
-if you can't access, please visit <a href="https://github.com/kyuchoi/3D_MRI_survival_glioma">*"Preoperative MRI Survival glioma Official Repository (Original)"*</a>
+Recently, I derived results from New Data and developing 3D ViT Model.
+
+<a href="https://github.com/immsk1997/mskim/tree/main/SNUH%20Medical%20AI/Research%20(GBM)/AI">**Click 3D ViT Model & SNUH GBM Survival AI Model New Data Results(SEResNext50)**
+
 
 ## Introduce
 
