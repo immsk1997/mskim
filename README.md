@@ -23,7 +23,7 @@ AI Journal Club (SNUH Radiology AICON)
 
 Recently, I derived results from New Data and 3D ViT Model.
 
-<a href="https://github.com/immsk1997/mskim/tree/main/SNUH%20Medical%20AI/Research/AI">**3D ViT Model & SNUH GBM Survival AI Model New Data Results (SEResNext50)**</a>
+<a href="https://github.com/immsk1997/mskim/tree/main/SNUH%20Medical%20AI/Research/AI">**3D ViT GBM Survival Analysis & Prediction**</a>
 
 
 ## Introduce
