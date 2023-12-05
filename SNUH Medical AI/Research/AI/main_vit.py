@@ -37,9 +37,8 @@ from medcam import *
 from skimage.transform import resize
 from scipy import ndimage
 
-
 #%%
-'''' Setting '''
+''' Setting '''
 def get_args_parser(add_help=True):
     parser = argparse.ArgumentParser(description='Deep survival GBL: image only', add_help=add_help)
     parser.add_argument('--gpu_id', type=int, default=0)
@@ -121,12 +120,16 @@ df_proc_labels_test, event_test, duration_test = make_kfold_df_proc_labels(main_
 '''Model 설정'''
 #%%
 if args.net_architect == 'VisionTransformer':
-  model = vit_base_patch16(args=args, in_chans=4,num_classes=args.n_intervals).to(device)
-  
+  model = vit_gbm_patch16(args=args, num_classes=args.n_intervals).to(device)
+
+print(f'Show Vision Transformer Architect:{vars(model)["_modules"]}')
+layer_list = [n for n in vars(model)["_modules"]]
+print(f'Vision Transformer Layer List:{layer_list}')
+
 """Optimizer, Loss Function"""
 base_optimizer = AdamP
 optimizer = SAM(model.parameters(), base_optimizer, lr=args.lr, weight_decay=args.weight_decay)
-criterion = nnet_loss # TaylorCrossEntropyLoss(n=2,smoothing=0.2)
+criterion = TaylorCrossEntropyLoss(n=2,smoothing=0.2) #nnet_loss
 scheduler = fetch_scheduler(optimizer)
 
 '''Train / Validation'''
@@ -138,7 +141,7 @@ test_gpu_id = main_args.test_gpu_id # int(main_args.gpu_id + 1) #
 print(f'Testing on GPU {test_gpu_id}')
 
 test_device = torch.device(test_gpu_id)
-model = vit_base_patch16(args=args, in_chans=4,num_classes=args.n_intervals).to(test_device)
+model = vit_gbm_patch16(args=args, num_classes=args.n_intervals).to(test_device)
 model = load_ckpt(args, model)
 
 proc_label_path_test = os.path.join(args.proc_label_dir, f'{main_args.ext_dataset_name}_{main_args.spec_duration}_{main_args.spec_patho}_{main_args.spec_event}_proc_labels.csv')
@@ -146,7 +149,7 @@ df_proc_labels_test = pd.read_csv(proc_label_path_test, dtype='string')
 df_proc_labels_test = df_proc_labels_test.set_index('ID')
 
 test_data = ViTDataset(df = df_proc_labels_test, args = args, dataset_name=f'{main_args.ext_dataset_name}')
-test_loader = torch.utils.data.Dataloader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False)
+test_loader = torch.utils.data.DataLoader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False)
 
 df_DL_score_test = df_proc_labels_test.copy()
 df_DL_score_test.drop(columns=df_DL_score_test.columns,inplace=True) # index 열 제외하고 모두 삭제
@@ -158,6 +161,7 @@ df_DL_score_test.insert(n_intervals, 'oneyr_survs_test', '')
 oneyr_survs_test = []
 for subj_num, (inputs,labels) in enumerate(test_loader):
   model.eval()
+  inputs = inputs.type(torch.cuda.FloatTensor)
   inputs = inputs.to(test_device)
   labels = labels.to(test_device)
 
@@ -203,3 +207,129 @@ print(f'Original C-index for valid: {original_c_index:.4f}')
 print(f'95% CI for C-index for valid: ({ci_lower:.4f}, {ci_upper:.4f})')
 
 score_test = get_BS(event_test, duration_test, oneyr_survs_test)
+
+#%%
+'''Grad CAM'''
+plt.switch_backend('agg')
+
+test_img_path='/mnt/hdd3/mskim/GBL/data/severance/VIT/resized_BraTS/Sev001'
+seqs = []
+for seq in ['t1','t2','flair','t1ce']:
+  seq=nib.load(os.path.join(test_img_path, f'{seq}_resized.nii.gz')).get_fdata() # _seg # _cropped
+  print(f'seq range:min {seq.min()}-max {seq.max()}')
+  # print(seq.shape)
+  # torch.cat([x[sequence][tio.DATA] for sequence in self.SEQUENCE], axis=0)
+  seqs.append(seq)
+
+x = np.stack(seqs, axis=0)
+x = torch.from_numpy(x)
+x = torch.unsqueeze(x, axis=0)
+print(f'x.shape:{x.shape}') # torch.Size([1, 4, 120, 120, 78])
+
+z_slice_num = int(x.shape[-1]//2) # 39 # AXL
+y_slice_num = int(x.shape[-2]//2) # 60 # SAG
+x_slice_num = int(x.shape[-3]//2) # 60 # COR
+
+seq_idx_dict = {'t1':0, 't2':1, 't1ce':2, 'flair':3}
+selected_seq = 't1ce'
+selected_seq_idx = seq_idx_dict[selected_seq]
+print(f'selected_seq:{selected_seq}, {selected_seq_idx}')
+
+#%%
+
+print(f'args.attention_map_dir:{args.attention_map_dir}')
+
+slice_3d = lambda x: x[selected_seq_idx,:,:,:]
+
+rot_degree = 90
+
+if main_args.save_grad_cam:
+  cam_loader = DataLoader(dataset=test_data, batch_size=1, shuffle=False)
+  cam_model = medcam.inject(model, backend='gcampp', output_dir="attention_maps", save_maps=True)
+
+  superimposed_imgs = []
+  cam_model.eval()
+
+  for subj_num, batch in enumerate(cam_loader):
+    batch = batch[0].to(test_device) # cuda()
+    output = cam_model(batch)
+    cam=cam_model.get_attention_map()
+    print(type(cam)) # numpy array 
+    print(f'cam.shape:{cam.shape}') # (1,1,4,4,3) # summary(model, (4, 120, 120, 78), device='cuda') 하면 나오는 shape이 (1,1,4,4,3) 임.
+    print(f'input.shape:{batch.shape}') # torch.Size([1, 4, 120, 120, 78])
+
+    subj_id = df_DL_score_test.index[subj_num]
+    print(f'subj_id:{subj_id}')
+
+    img_4d = batch.squeeze().cpu().numpy()
+    img_3d = slice_3d(img_4d)
+
+    img_3d_scaled = min_max_norm(img_3d)
+
+    result_3d = cam.squeeze()
+
+    print(f'img_3d.shape:{img_3d.shape}') # (120, 120, 78)
+    print(f'result_3d.shape:{result_3d.shape}') # (4, 4, 3)
+    
+    superimposed_img_3d, result_3d_resized = superimpose_img(img_3d_scaled, result_3d)
+    print(f'superimposed_img_3d.shape:{superimposed_img_3d.shape}')
+    print(f'result_3d_resized.shape:{result_3d_resized.shape}')
+    
+    ''' axl '''
+    img_2d = img_3d[:,:,z_slice_num]
+    superimposed_img_2d = superimposed_img_3d[:,:,z_slice_num]
+    result_2d_resized = result_3d_resized[:,:,z_slice_num]
+    result_2d = result_3d[:,:,0]
+
+    rot_result_2d_resized = ndimage.rotate(result_2d_resized, rot_degree)
+    rot_img_2d = ndimage.rotate(img_2d, rot_degree)
+
+    plt.imshow(rot_result_2d_resized, alpha = 0.9, cmap='jet') #'Spectral')
+    plt.imshow(rot_img_2d, alpha = 0.5, cmap='gray') # https://rk1993.tistory.com/278
+
+    plt_saved_loc = os.path.join(attention_map_dir, 'grad_CAM_2d_axl')
+    os.makedirs(plt_saved_loc, exist_ok=True)
+    plt.savefig(os.path.join(plt_saved_loc, f'Grad_CAM_heatmap_{subj_id}_axl.jpg'), dpi=300)
+
+    ''' sag '''
+    img_2d = img_3d[x_slice_num,:,:]
+    superimposed_img_2d = superimposed_img_3d[x_slice_num,:,:]
+    result_2d_resized = result_3d_resized[x_slice_num,:,:]
+    result_2d = result_3d[:,:,1]
+
+    rot_result_2d_resized = ndimage.rotate(result_2d_resized, rot_degree)
+    rot_img_2d = ndimage.rotate(img_2d, rot_degree)
+
+    plt.imshow(rot_result_2d_resized, alpha = 0.9, cmap='jet') #'Spectral')
+    plt.imshow(rot_img_2d, alpha = 0.5, cmap='gray') # https://rk1993.tistory.com/278
+
+    plt_saved_loc = os.path.join(attention_map_dir, 'grad_CAM_2d_sag')
+    os.makedirs(plt_saved_loc, exist_ok=True)
+    plt.savefig(os.path.join(plt_saved_loc, f'Grad_CAM_heatmap_{subj_id}_sag.jpg'), dpi=300)
+
+    ''' cor '''
+    img_2d = img_3d[:,y_slice_num,:]
+    superimposed_img_2d = superimposed_img_3d[:,y_slice_num,:]
+    result_2d_resized = result_3d_resized[:,y_slice_num,:]
+    result_2d = result_3d[:,:,2]
+
+    rot_result_2d_resized = ndimage.rotate(result_2d_resized, rot_degree)
+    rot_img_2d = ndimage.rotate(img_2d, rot_degree)
+
+    plt.imshow(rot_result_2d_resized, alpha = 0.9, cmap='jet') #'Spectral')
+    plt.imshow(rot_img_2d, alpha = 0.5, cmap='gray') # https://rk1993.tistory.com/278
+
+    plt_saved_loc = os.path.join(attention_map_dir, 'grad_CAM_2d_cor')
+    os.makedirs(plt_saved_loc, exist_ok=True)
+    plt.savefig(os.path.join(plt_saved_loc, f'Grad_CAM_heatmap_{subj_id}_cor.jpg'), dpi=300)
+
+    saved_loc = os.path.join(attention_map_dir, 'grad_CAM')
+    os.makedirs(saved_loc, exist_ok=True)
+
+    superimposed_img_2d = min_max_norm(superimposed_img_2d)
+    superimposed_img_2d = (superimposed_img_2d * 255).astype(np.uint8)
+    grad_heatmap = cv2.applyColorMap(superimposed_img_2d[...,0], cv2.COLORMAP_JET)
+    cv2.imwrite(os.path.join(plt_saved_loc, f'Grad_CAM_heatmap_{subj_num}_cv_jet.jpg'), grad_heatmap)
+    
+    plt_saved_loc_3d = os.path.join(attention_map_dir, 'grad_CAM_3d')
+    os.makedirs(plt_saved_loc_3d, exist_ok=True)
