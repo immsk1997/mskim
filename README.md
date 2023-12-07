@@ -11,9 +11,7 @@
 
 **AI (SNUH)**
 
-I did not participate in <a href="https://pubmed.ncbi.nlm.nih.gov/37855826/">"Added Prognostic Value of 3D Deep Learning-Derived Features from Preoperative MRI for Adult-type Diffuse Gliomas."</a>
-
-After published, I proceed this research in User Perspective. and get results.
+After published, I proceeded <a href="https://pubmed.ncbi.nlm.nih.gov/37855826/">**this research**</a> in User Perspective. and get results.
 
 <a href="https://github.com/immsk1997/mskim/blob/main/SNUH%20Medical%20AI/Research/3D%20MRI%20%EB%87%8C%EA%B5%90%EC%A2%85%20%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EC%97%B0%EA%B5%AC.pdf">**SNUH GBM Survival AI Project**</a>
 
