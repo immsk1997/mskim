@@ -13,14 +13,15 @@
 
 After published, I proceeded <a href="https://pubmed.ncbi.nlm.nih.gov/37855826/">**this research**</a> in User Perspective. and get results.
 
+Recently, I derived results from New Data and 3D ViT Model.
+
+<a href="https://github.com/immsk1997/mskim/tree/main/SNUH%20Medical%20AI/Research/AI">**3D ViT GBM Survival Analysis & Prediction**</a>
+
+
 
 *AI Journal Club* (SNUH Radiology AICON)
 
 <a href="https://github.com/immsk1997/mskim/blob/main/SNUH%20Medical%20AI/AICON%20Journal%20Club/M.S.KIM%20PT%20(AICON).pdf">**Review Vision Transformer Paper and How to use our research**</a>
-
-Recently, I derived results from New Data and 3D ViT Model.
-
-<a href="https://github.com/immsk1997/mskim/tree/main/SNUH%20Medical%20AI/Research/AI">**3D ViT GBM Survival Analysis & Prediction**</a>
 
 
 ## Introduce
