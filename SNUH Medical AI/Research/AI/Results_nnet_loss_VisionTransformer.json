@@ -1,10 +1,14 @@
-args:{'scheduler': 'CosineAnnealingLR', 'T_max': 10, 'T_0': 10, 'lr': 0.001, 'min_lr': 1e-06, 'weight_decay': 1e-05, 'batch_size': 10, 'n_fold': 10, 'smoothing': 0.3, 'net_architect': 'VisionTransformer', 'compart_name': 'resized', 'sequence': ['t1', 't2', 't1ce', 'flair'], 'data_key_list': ['sex', 'age', 'IDH', 'MGMT', 'GBL', 'EOR', 'duration_death', 'event_death', 'duration_prog', 'event_prog', 'biopsy_exclusion'], 'root_dir': '/mnt/hdd3/mskim/GBL', 'data_dir': '/mnt/hdd3/mskim/GBL/data', 'label_dir': '/mnt/hdd3/mskim/GBL/data/label/surv_labels', 'proc_label_dir': '/mnt/hdd3/mskim/GBL/data/label/surv_labels/proc_labels', 'exp_dir': '/mnt/hdd3/mskim/GBL/code/experiment', 'dataset_name': ['SNUH']}
+args:{'scheduler': 'CosineAnnealingLR', 'T_max': 10, 'T_0': 10, 'lr': 0.001, 'min_lr': 1e-06, 'weight_decay': 1e-05, 'batch_size': 10, 'n_fold': 10, 'smoothing': 0.3, 
+'net_architect': 'VisionTransformer', 'compart_name': 'resized', 'sequence': ['t1', 't2', 't1ce', 'flair'], 
+'data_key_list': ['sex', 'age', 'IDH', 'MGMT', 'GBL', 'EOR', 'duration_death', 'event_death', 'duration_prog', 'event_prog', 'biopsy_exclusion'], 
+'root_dir': '/mnt/hdd3/mskim/GBL', 'data_dir': '/mnt/hdd3/mskim/GBL/data', 'label_dir': '/mnt/hdd3/mskim/GBL/data/label/surv_labels', 
+'proc_label_dir': '/mnt/hdd3/mskim/GBL/data/label/surv_labels/proc_labels', 'exp_dir': '/mnt/hdd3/mskim/GBL/code/experiment', 'dataset_name': ['SNUH']}
 Using VisionTransformer
 n_intervals: 19
 Train dataset_name:SNUH
 Training on GPU 0
 Setting seed:123456
-dataset:SNUH for training
+dataset:Internal Dataset for training
 df_dataset.shape:(1134, 11)
 df_label_dataset_list.shape:(1134, 11)
 filtering before GBL; 1134 cases
@@ -13,7 +17,7 @@ events before 1yr:
 1141
 events after 1yr:
 828
-dataset:severance for training
+dataset:External Dataset for training
 ext_df_dataset.shape:(132, 11)
 filtering before GBL; 132 cases
 filtering after GBL; 104 cases
@@ -23,14 +27,8 @@ events after 1yr:
 27
 df.index.values:654
 img_label_comm_list:652
-dataset_name:SNUH, 652
-SNUH df.shape: (652, 11)
-n_intervals: 19
 df.index.values:104
 img_label_comm_list:104
-dataset_name:severance, 104
-severance df.shape: (104, 11)
-n_intervals: 19
 Show Vision Transformer Architect:OrderedDict([('patch_embed', PatchEmbed(
   (proj): Conv3d(4, 768, kernel_size=(16, 16, 16), stride=(16, 16, 16))
   (norm): Identity()

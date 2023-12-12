@@ -33,6 +33,7 @@ Original C-index for valid: 0.5811
 95% CI for C-index for valid: (0.5092, 0.6430)
 BS score at 365:[0.18880137]
 
+SEResNext50
 ''' 1YR ALL '''
 <train_inference>
 Original C-index for train: 0.8822
@@ -72,14 +73,29 @@ Original C-index for train: 0.7568
 95% CI for C-index for train: (0.7428, 0.7704)
 BS score at 365:[0.15836072]
 
-<inference>
+<valid_inference>
 Original C-index for valid: 0.7306
 95% CI for C-index for valid: (0.6873, 0.7727)
 BS score at 365:[0.16647194]
 
 
 '''OS GBL'''
+<train_inference>
+Original C-index for train: 0.7025
+95% CI for C-index for train: (0.6850, 0.7175)
+BS score at 365:[0.19696458]
 
+<valid_inference>
+Original C-index for valid: 0.6844
+95% CI for C-index for valid: (0.6239, 0.7342)
+BS score at 365:[0.20139788]
+
+<test_inference>
+Original C-index for valid: 0.5939
+95% CI for C-index for valid: (0.5266, 0.6532)
+BS score at 365:[0.20589277]
+
+DenseNet
 '''1yr ALL'''
 <train_inference>
 Original C-index for train: 0.7574
@@ -98,6 +114,20 @@ BS score at 365:[0.17095225]
 
 
 '''1yr GBL'''
+<train_inference>
+Original C-index for train: 0.7825
+95% CI for C-index for train: (0.7619, 0.8027)
+BS score at 365:[0.17516517]
+
+<valid_inference>
+Original C-index for valid: 0.7280
+95% CI for C-index for valid: (0.6525, 0.8004)
+BS score at 365:[0.19472572]
+
+<test_inference>
+Original C-index for valid: 0.6504
+95% CI for C-index for valid: (0.5545, 0.7457)
+BS score at 365:[0.19897979]
 
 Resnet50-CBAM
 '''OS all'''
@@ -132,6 +162,7 @@ Original C-index for valid: 0.5879
 95% CI for C-index for valid: (0.5146, 0.6529)
 BS score at 365:[0.1813933]
 
+Resnet50-CBAM
 '''1yr all'''
 
 <train_inference>

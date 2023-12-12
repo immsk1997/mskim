@@ -8,37 +8,7 @@
 # https://m.blog.naver.com/nueyet/222984347342
 
 #%%
-import warnings
-warnings.simplefilter("ignore", UserWarning)
-import argparse
-
-import math
-from torchsummary import summary as summary
-
-import torch # For building the networks 
-import torch.nn as nn
-import torch.nn.functional as F
-
-import monai
-from monai.networks.nets import *
-
-from utils_vit import *
-from vit_3d import *
-
-from adamp import AdamP
-
-from lifelines import KaplanMeierFitter
-from lifelines import CoxPHFitter
-from lifelines.utils import concordance_index
-
-from medcam import medcam
-from medcam import *
-
-from skimage.transform import resize
-from scipy import ndimage
-
-#%%
-''' Setting '''
+'''Deep Learning HyperParameter, Computer Resource Setting'''
 def get_args_parser(add_help=True):
     parser = argparse.ArgumentParser(description='Deep survival GBL: image only', add_help=add_help)
     parser.add_argument('--gpu_id', type=int, default=0)
@@ -49,7 +19,7 @@ def get_args_parser(add_help=True):
     parser.add_argument('--spec_duration', type=str, default='1yr') # 'OS' # 
     parser.add_argument('--spec_event', type=str, default='death') # 'death' # 
     parser.add_argument('--ext_dataset_name', type=str, default='severance') # 'TCGA' # 
-    parser.add_argument('--dataset_list', nargs='+', default=['SNUH'], help='selected_training_datasets') # ,'TCGA'
+    parser.add_argument('--dataset_list', nargs='+', default=['SNUH','UCSF','UPenn','TCGA'], help='selected_training_datasets') # ,'TCGA'
     parser.add_argument('--remove_idh_mut', default=False, type=str2bool)
     parser.add_argument('--save_grad_cam', default=False, type=str2bool)
     parser.add_argument('--biopsy_exclusion', default=False, type=str2bool)
@@ -88,71 +58,120 @@ print(f'Training on GPU {gpu_id}')
 device = torch.device(f'cuda:{gpu_id}' if torch.cuda.is_available() else 'cpu')
 
 #%%
-os.environ['MKL_THREADING_LAYER'] = 'GNU' # in Linux, I had to write a script to call "export MKL_THREADING_LAYER=GNU" (which sets that environment variable) each time I activate the virtual environment, and a counter script to undo that change upon exiting the environment.
+os.environ['MKL_THREADING_LAYER'] = 'GNU'
 set_seed(main_args.seed)
 print(f'Setting seed:{main_args.seed}')
+
 #%%
 to_np = lambda x: x.detach().cpu().numpy()
 to_cuda = lambda x: torch.from_numpy(x).float().device()
-
 os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
 torch.cuda.empty_cache()
-# print(get_dir(DATA_DIR))
 
 #%%
-get_label_path = lambda dataset: os.path.join(args.label_dir, f'{dataset}_{main_args.spec_duration}_{main_args.spec_patho}_{main_args.spec_event}.csv')
-get_target = lambda df: (np.array(df.index.values, dtype=str), # int: not working
-                          np.array(df[f'duration_{main_args.spec_event}'].tolist(), dtype=int), 
-                          np.array(df[f'event_{main_args.spec_event}'].tolist(), dtype=int))
+df = save_label_dataset_list(main_args, args)
+ext_df = save_label_ext_dataset(main_args, args)
 
-df = save_label_dataset_list(main_args, args) # argument에 맞게 label DF 필터링하여 새롭게 저장
-ext_df = save_label_ext_dataset(main_args, args) # argument에 맞게 label DF 필터링하여 새롭게 저장
-
-#%%
-'''여러개의 Dataset_list -> 하나의 Dataset name으로 통합'''
 combine_img(main_args, args)
 
+df_proc_labels_train, event_train, duration_train = make_kfold_df_proc_labels(main_args,args, f'{args.dataset_name}', remove_idh_mut = main_args.remove_idh_mut)
+df_proc_labels_test, event_test, duration_test = make_kfold_df_proc_labels(main_args,args, f'{main_args.ext_dataset_name}', remove_idh_mut = main_args.remove_idh_mut)
+
 #%%
-'''Label <-> Image Mapping, Fold 설정'''
-df_proc_labels_train, event_train, duration_train = make_kfold_df_proc_labels(main_args, args, f'{args.dataset_name}', remove_idh_mut = main_args.remove_idh_mut)
-df_proc_labels_test, event_test, duration_test = make_kfold_df_proc_labels(main_args, args, f'{main_args.ext_dataset_name}', remove_idh_mut = main_args.remove_idh_mut)
+'''Train / Valid Model 설정'''
+if args.net_architect == 'SEResNext50':
+  print(f'train transform:')
+  args.train_transform = get_transform(args, f'{args.dataset_name}')
+  print(f'valid transform:')
+  args.valid_transform = get_transform(args, f'{args.dataset_name}')
+  print(f'test transform:')
+  test_transform = get_transform(args, f'{main_args.ext_dataset_name}')
+  
+  base_model = monai.networks.nets.SEResNext50(spatial_dims=3, in_channels=4, num_classes=args.n_intervals)
+  model = CustomNetwork(args, base_model = base_model).to(device)
 
-'''Model 설정'''
-#%%
-if args.net_architect == 'VisionTransformer':
-  model = vit_gbm_patch16(args=args, num_classes=args.n_intervals).to(device)
+elif args.net_architect == 'DenseNet':
+  print(f'train transform:')
+  args.train_transform = get_transform(args, f'{args.dataset_name}')
+  print(f'valid transform:')
+  args.valid_transform = get_transform(args, f'{args.dataset_name}')
+  print(f'test transform:')
+  test_transform = get_transform(args, f'{main_args.ext_dataset_name}')
+ 
+  base_model = monai.networks.nets.DenseNet(spatial_dims=3, in_channels=4, out_channels=args.n_intervals)
+  model = CustomNetwork(args, base_model = base_model).to(device)
 
-print(f'Show Vision Transformer Architect:{vars(model)["_modules"]}')
-layer_list = [n for n in vars(model)["_modules"]]
-print(f'Vision Transformer Layer List:{layer_list}')
+elif args.net_architect == 'resnet50_cbam':
+  print(f'train transform:')
+  args.train_transform = get_transform(args, f'{args.dataset_name}')
+  print(f'valid transform:')
+  args.valid_transform = get_transform(args, f'{args.dataset_name}')
+  print(f'test transform:')
+  test_transform = get_transform(args, f'{main_args.ext_dataset_name}')
+  
+  base_model = resnet50_cbam(num_classes=args.n_intervals)
+  model = CustomNetwork(args, base_model = base_model).to(device)
 
-"""Optimizer, Loss Function"""
+elif args.net_architect == 'VisionTransformer':
+  model = VisionTransformer(args=args, in_chans=4, num_classes=args.n_intervals).to(device)
+
+'''Optimizer, Loss Function'''
 base_optimizer = AdamP
 optimizer = SAM(model.parameters(), base_optimizer, lr=args.lr, weight_decay=args.weight_decay)
-criterion = TaylorCrossEntropyLoss(n=2,smoothing=0.2) #nnet_loss
+criterion = nnet_loss # TaylorCrossEntropyLoss(n=2,smoothing=0.2)
 scheduler = fetch_scheduler(optimizer)
 
-'''Train / Validation'''
+'''Training (Internal DataSet)'''
 if not main_args.save_grad_cam:
-  model, history = run_fold(df_proc_labels_train, args, model, criterion, optimizer, scheduler, device=device, fold=0, num_epochs=main_args.epochs)
+  
+  if args.net_architect =='VisionTransformer':
+    model, history = run_fold_vit(df_proc_labels_train, args, model, criterion, optimizer, scheduler, device=device, fold=0, num_epochs=main_args.epochs)
+  else:
+    model, history = run_fold(df_proc_labels_train, args, model, criterion, optimizer, scheduler, device=device, fold=0, num_epochs=main_args.epochs)
 
 # %%
-test_gpu_id = main_args.test_gpu_id # int(main_args.gpu_id + 1) # 
+''' Test Model -> Survival Analysis & Grad_CAM (External DataSet) '''
+
+test_gpu_id = main_args.test_gpu_id 
 print(f'Testing on GPU {test_gpu_id}')
 
 test_device = torch.device(test_gpu_id)
-model = vit_gbm_patch16(args=args, num_classes=args.n_intervals).to(test_device)
-model = load_ckpt(args, model)
 
 proc_label_path_test = os.path.join(args.proc_label_dir, f'{main_args.ext_dataset_name}_{main_args.spec_duration}_{main_args.spec_patho}_{main_args.spec_event}_proc_labels.csv')
 df_proc_labels_test = pd.read_csv(proc_label_path_test, dtype='string')
 df_proc_labels_test = df_proc_labels_test.set_index('ID')
 
-test_data = ViTDataset(df = df_proc_labels_test, args = args, dataset_name=f'{main_args.ext_dataset_name}')
-test_loader = torch.utils.data.DataLoader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False)
+if args.net_architect == 'SEResNext50':
+  base_model = monai.networks.nets.SEResNext50(spatial_dims=3, in_channels=4, num_classes=args.n_intervals)
+  model = CustomNetwork(args, base_model = base_model).to(test_device)
+  model = load_ckpt(args, model)
+  test_data = SurvDataset(df = df_proc_labels_test, args = args, dataset_name=f'{main_args.ext_dataset_name}', transforms=test_transform, aug_transform=False)
+  test_loader = DataLoader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False) # args.batch_size
 
+elif args.net_architect == 'DenseNet':
+  base_model = monai.networks.nets.DenseNet(spatial_dims=3, in_channels=4, out_channels=args.n_intervals)
+  model = CustomNetwork(args, base_model = base_model).to(test_device)
+  model = load_ckpt(args, model)
+  test_data = SurvDataset(df = df_proc_labels_test, args = args, dataset_name=f'{main_args.ext_dataset_name}', transforms=test_transform, aug_transform=False)
+  test_loader = DataLoader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False) # args.batch_size
+
+elif args.net_architect == 'resnet50_cbam':
+  base_model = resnet50_cbam(num_classes=args.n_intervals)
+  model = CustomNetwork(args, base_model = base_model).to(test_device)
+  model = load_ckpt(args, model)
+  test_data = SurvDataset(df = df_proc_labels_test, args = args, dataset_name=f'{main_args.ext_dataset_name}', transforms=test_transform, aug_transform=False)
+  test_loader = DataLoader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False) # args.batch_size
+
+elif args.net_architect == 'VisionTransformer':
+  model = vit_gbm_patch16(args=args, num_classes=args.n_intervals).to(test_device)
+  model = load_ckpt(args, model)
+  test_data = ViTDataset(df = df_proc_labels_test, args = args, dataset_name=f'{main_args.ext_dataset_name}')
+  test_loader = torch.utils.data.DataLoader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False)
+
+#%%
+'''Test Inference'''
 df_DL_score_test = df_proc_labels_test.copy()
-df_DL_score_test.drop(columns=df_DL_score_test.columns,inplace=True) # index 열 제외하고 모두 삭제
+df_DL_score_test.drop(columns=df_DL_score_test.columns,inplace=True) 
 
 for i in np.arange(n_intervals):
   df_DL_score_test.insert(int(i), f'MRI{i+1}', '')
@@ -161,18 +180,23 @@ df_DL_score_test.insert(n_intervals, 'oneyr_survs_test', '')
 oneyr_survs_test = []
 for subj_num, (inputs,labels) in enumerate(test_loader):
   model.eval()
-  inputs = inputs.type(torch.cuda.FloatTensor)
   inputs = inputs.to(test_device)
   labels = labels.to(test_device)
 
-  y_pred = model(inputs)
+  y_pred = model(inputs) # torch.Size([4, 19])
+  print(f'y_pred.size:{y_pred.size()}')
   print(f'y_pred:{y_pred}')
+  print(f'labels.size:{labels.size()}')
   print(f'labels:{labels}')
   print(f'subj_num:{subj_num}')
     
   ''' evaluate c-index (Survival Analysis) '''
+  # ref : https://lifelines.readthedocs.io/en/latest/lifelines.utils.html
+  # ref : https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=cjh226&logNo=221380929786
+
   halflife=365.*2
   breaks=-np.log(1-np.arange(0.0,0.96,0.05))*halflife/np.log(2) 
+  # breaks=np.arange(0.,365.*5,365./8)
   y_pred_np = to_np(y_pred)
 
   cumprod = np.cumprod(y_pred_np[:,0:np.nonzero(breaks>365)[0][0]], axis=1)
@@ -208,17 +232,19 @@ print(f'95% CI for C-index for valid: ({ci_lower:.4f}, {ci_upper:.4f})')
 
 score_test = get_BS(event_test, duration_test, oneyr_survs_test)
 
-#%%
-'''Grad CAM'''
+# %%
+
+''' grad CAM '''
+# ref: https://github.com/MECLabTUDA/M3d-Cam
+
 plt.switch_backend('agg')
 
-test_img_path='/mnt/hdd3/mskim/GBL/data/severance/VIT/resized_BraTS/Sev001'
+test_img_path='/mnt/hdd3/mskim/GBL/data/severance/resized_BraTS/Sev001/'
 seqs = []
 for seq in ['t1','t2','flair','t1ce']:
-  seq=nib.load(os.path.join(test_img_path, f'{seq}_resized.nii.gz')).get_fdata() # _seg # _cropped
+  seq=nib.load(os.path.join(test_img_path, f'{seq}_resized.nii.gz')).get_fdata() 
   print(f'seq range:min {seq.min()}-max {seq.max()}')
   # print(seq.shape)
-  # torch.cat([x[sequence][tio.DATA] for sequence in self.SEQUENCE], axis=0)
   seqs.append(seq)
 
 x = np.stack(seqs, axis=0)
@@ -255,7 +281,7 @@ if main_args.save_grad_cam:
     output = cam_model(batch)
     cam=cam_model.get_attention_map()
     print(type(cam)) # numpy array 
-    print(f'cam.shape:{cam.shape}') # (1,1,4,4,3) # summary(model, (4, 120, 120, 78), device='cuda') 하면 나오는 shape이 (1,1,4,4,3) 임.
+    print(f'cam.shape:{cam.shape}') # torch.Size(1,1,4,4,3)
     print(f'input.shape:{batch.shape}') # torch.Size([1, 4, 120, 120, 78])
 
     subj_id = df_DL_score_test.index[subj_num]

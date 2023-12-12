@@ -1,0 +1,1828 @@
+args:{'scheduler': 'CosineAnnealingLR', 'T_max': 10, 'T_0': 10, 'lr': 0.0001, 'min_lr': 1e-06, 'weight_decay': 1e-05, 'batch_size': 10, 'n_fold': 10, 
+'smoothing': 0.3, 'net_architect': 'VisionTransformer', 'compart_name': 'resized', 'sequence': ['t1', 't2', 't1ce', 'flair'], 
+'data_key_list': ['sex', 'age', 'IDH', 'MGMT', 'GBL', 'EOR', 'duration_death', 'event_death', 'duration_prog', 'event_prog', 'biopsy_exclusion'], 
+'root_dir': '/mnt/hdd3/mskim/GBL', 'data_dir': '/mnt/hdd3/mskim/GBL/data', 'label_dir': '/mnt/hdd3/mskim/GBL/data/label/surv_labels', 
+'proc_label_dir': '/mnt/hdd3/mskim/GBL/data/label/surv_labels/proc_labels', 'exp_dir': '/mnt/hdd3/mskim/GBL/code/experiment', 'dataset_name': ['SNUH']}
+Using VisionTransformer
+n_intervals: 19
+Train dataset_name:SNUH
+Training on GPU 0
+Setting seed:123456
+dataset:Internal Dataset for training
+df_dataset.shape:(1134, 11)
+df_label_dataset_list.shape:(1134, 11)
+dataset:External Dataset for training
+ext_df_dataset.shape:(132, 11)
+df.index.values:1134
+img_label_comm_list:1132
+df.index.values:132
+img_label_comm_list:132
+Show Vision Transformer Architect:OrderedDict([('patch_embed', PatchEmbed(
+  (proj): Conv3d(4, 768, kernel_size=(16, 16, 16), stride=(16, 16, 16))
+  (norm): Identity()
+)), ('pos_drop', Dropout(p=0.0, inplace=False)), ('blocks', ModuleList(
+  (0-11): 12 x Block(
+    (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+    (attn): Attention(
+      (qkv): Linear(in_features=768, out_features=2304, bias=True)
+      (q_norm): Identity()
+      (k_norm): Identity()
+      (attn_drop): Dropout(p=0.0, inplace=False)
+      (proj): Linear(in_features=768, out_features=768, bias=True)
+      (proj_drop): Dropout(p=0.0, inplace=False)
+    )
+    (ls1): Identity()
+    (drop_path1): Identity()
+    (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+    (mlp): Mlp(
+      (fc1): Linear(in_features=768, out_features=3072, bias=True)
+      (act): GELU(approximate='none')
+      (drop1): Dropout(p=0.0, inplace=False)
+      (norm): Identity()
+      (fc2): Linear(in_features=3072, out_features=768, bias=True)
+      (drop2): Dropout(p=0.0, inplace=False)
+    )
+    (ls2): Identity()
+    (drop_path2): Identity()
+  )
+)), ('cls_norm', LayerNorm((768,), eps=1e-06, elementwise_affine=True)), ('head', Linear(in_features=768, out_features=19, bias=True))])
+Vision Transformer Layer List:['patch_embed', 'pos_drop', 'blocks', 'cls_norm', 'head']
+
+[1018 rows x 39 columns]
+num of train_data: 1018
+num of valid_data: 114
+Epoch 1/100
+----------
+phase:train
+train Loss: 1.1429
+phase:valid
+valid Loss: 1.1377
+
+Epoch 2/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1377
+
+Epoch 3/100
+----------
+phase:train
+train Loss: 1.1153
+phase:valid
+valid Loss: 1.1375
+
+Epoch 4/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1361
+
+Epoch 5/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1374
+
+Epoch 6/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1374
+
+Epoch 7/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1379
+
+Epoch 8/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1376
+
+Epoch 9/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1376
+
+Epoch 10/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1377
+
+Epoch 11/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1377
+
+Epoch 12/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1377
+
+Epoch 13/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1379
+
+Epoch 14/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1374
+
+Epoch 15/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1373
+
+Epoch 16/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1376
+
+Epoch 17/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1356
+
+Epoch 18/100
+----------
+phase:train
+train Loss: 1.1143
+phase:valid
+valid Loss: 1.1376
+
+Epoch 19/100
+----------
+phase:train
+train Loss: 1.1146
+phase:valid
+valid Loss: 1.1368
+
+Epoch 20/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1380
+
+Epoch 21/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1354
+
+Epoch 22/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1376
+
+Epoch 23/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1376
+
+Epoch 24/100
+----------
+phase:train
+train Loss: 1.1151
+phase:valid
+valid Loss: 1.1373
+
+Epoch 25/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1357
+
+Epoch 26/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1374
+
+Epoch 27/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1376
+
+Epoch 28/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1375
+
+Epoch 29/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1376
+
+Epoch 30/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1377
+
+Epoch 31/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1377
+
+Epoch 32/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1377
+
+Epoch 33/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1376
+
+Epoch 34/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1376
+
+Epoch 35/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1375
+
+Epoch 36/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1375
+
+Epoch 37/100
+----------
+phase:train
+train Loss: 1.1144
+phase:valid
+valid Loss: 1.1377
+
+Epoch 38/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1375
+
+Epoch 39/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1363
+
+Epoch 40/100
+----------
+phase:train
+train Loss: 1.1146
+phase:valid
+valid Loss: 1.1371
+
+Epoch 41/100
+----------
+phase:train
+train Loss: 1.1145
+phase:valid
+valid Loss: 1.1377
+
+Epoch 42/100
+----------
+phase:train
+train Loss: 1.1149
+phase:valid
+valid Loss: 1.1374
+
+Epoch 43/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1375
+
+Epoch 44/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1376
+
+Epoch 45/100
+----------
+phase:train
+train Loss: 1.1148
+phase:valid
+valid Loss: 1.1377
+
+Epoch 46/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1377
+
+Epoch 47/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1374
+
+Epoch 48/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1377
+
+Epoch 49/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1377
+
+Epoch 50/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1377
+
+Epoch 51/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1378
+
+Epoch 52/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1378
+
+Epoch 53/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1376
+
+Epoch 54/100
+----------
+phase:train
+train Loss: 1.1146
+phase:valid
+valid Loss: 1.1378
+
+Epoch 55/100
+----------
+phase:train
+train Loss: 1.1146
+phase:valid
+valid Loss: 1.1373
+
+Epoch 56/100
+----------
+phase:train
+train Loss: 1.1145
+phase:valid
+valid Loss: 1.1386
+
+Epoch 57/100
+----------
+phase:train
+train Loss: 1.1145
+phase:valid
+valid Loss: 1.1378
+
+Epoch 58/100
+----------
+phase:train
+train Loss: 1.1144
+phase:valid
+valid Loss: 1.1379
+
+Epoch 59/100
+----------
+phase:train
+train Loss: 1.1146
+phase:valid
+valid Loss: 1.1375
+
+Epoch 60/100
+----------
+phase:train
+train Loss: 1.1145
+phase:valid
+valid Loss: 1.1373
+
+Epoch 61/100
+----------
+phase:train
+train Loss: 1.1147
+phase:valid
+valid Loss: 1.1370
+
+Epoch 62/100
+----------
+phase:train
+train Loss: 1.1145
+phase:valid
+valid Loss: 1.1376
+
+Epoch 63/100
+----------
+phase:train
+train Loss: 1.1146
+phase:valid
+valid Loss: 1.1379
+
+Epoch 64/100
+----------
+phase:train
+train Loss: 1.1146
+phase:valid
+valid Loss: 1.1358
+
+Epoch 65/100
+----------
+phase:train
+train Loss: 1.1146
+phase:valid
+valid Loss: 1.1381
+
+Epoch 66/100
+----------
+phase:train
+train Loss: 1.1146
+phase:valid
+valid Loss: 1.1381
+
+Epoch 67/100
+----------
+phase:train
+train Loss: 1.1144
+phase:valid
+valid Loss: 1.1378
+
+Epoch 68/100
+----------
+phase:train
+train Loss: 1.1144
+phase:valid
+valid Loss: 1.1376
+
+Epoch 69/100
+----------
+phase:train
+train Loss: 1.1143
+phase:valid
+valid Loss: 1.1377
+
+Epoch 70/100
+----------
+phase:train
+train Loss: 1.1143
+phase:valid
+valid Loss: 1.1376
+
+Epoch 71/100
+----------
+phase:train
+train Loss: 1.1143
+phase:valid
+valid Loss: 1.1376
+
+Epoch 72/100
+----------
+phase:train
+train Loss: 1.1143
+phase:valid
+valid Loss: 1.1377
+
+Epoch 73/100
+----------
+phase:train
+train Loss: 1.1143
+phase:valid
+valid Loss: 1.1376
+
+Epoch 74/100
+----------
+phase:train
+train Loss: 1.1142
+phase:valid
+valid Loss: 1.1379
+
+Epoch 75/100
+----------
+phase:train
+train Loss: 1.1142
+phase:valid
+valid Loss: 1.1376
+
+Epoch 76/100
+----------
+phase:train
+train Loss: 1.1143
+phase:valid
+valid Loss: 1.1377
+
+Epoch 77/100
+----------
+phase:train
+train Loss: 1.1141
+phase:valid
+valid Loss: 1.1374
+
+Epoch 78/100
+----------
+phase:train
+train Loss: 1.1144
+phase:valid
+valid Loss: 1.1380
+
+Epoch 79/100
+----------
+phase:train
+train Loss: 1.1141
+phase:valid
+valid Loss: 1.1375
+
+Epoch 80/100
+----------
+phase:train
+train Loss: 1.1141
+phase:valid
+valid Loss: 1.1361
+
+Epoch 81/100
+----------
+phase:train
+train Loss: 1.1136
+phase:valid
+valid Loss: 1.1375
+
+Epoch 82/100
+----------
+phase:train
+train Loss: 1.1137
+phase:valid
+valid Loss: 1.1376
+
+Epoch 83/100
+----------
+phase:train
+train Loss: 1.1136
+phase:valid
+valid Loss: 1.1378
+
+Epoch 84/100
+----------
+phase:train
+train Loss: 1.1129
+phase:valid
+valid Loss: 1.1376
+
+Epoch 85/100
+----------
+phase:train
+train Loss: 1.1128
+phase:valid
+valid Loss: 1.1382
+
+Epoch 86/100
+----------
+phase:train
+train Loss: 1.1121
+phase:valid
+valid Loss: 1.1384
+
+Epoch 87/100
+----------
+phase:train
+train Loss: 1.1114
+phase:valid
+valid Loss: 1.1377
+
+Epoch 88/100
+----------
+phase:train
+train Loss: 1.1079
+phase:valid
+valid Loss: 1.1389
+
+Epoch 89/100
+----------
+phase:train
+train Loss: 1.1075
+phase:valid
+valid Loss: 1.1379
+
+Epoch 90/100
+----------
+phase:train
+train Loss: 1.1061
+phase:valid
+valid Loss: 1.1380
+
+Epoch 91/100
+----------
+phase:train
+train Loss: 1.1057
+phase:valid
+valid Loss: 1.1380
+
+Epoch 92/100
+----------
+phase:train
+train Loss: 1.1056
+phase:valid
+valid Loss: 1.1380
+
+Epoch 93/100
+----------
+phase:train
+train Loss: 1.1053
+phase:valid
+valid Loss: 1.1381
+
+Epoch 94/100
+----------
+phase:train
+train Loss: 1.1053
+phase:valid
+valid Loss: 1.1381
+
+Epoch 95/100
+----------
+phase:train
+train Loss: 1.1057
+phase:valid
+valid Loss: 1.1388
+
+Epoch 96/100
+----------
+phase:train
+train Loss: 1.1061
+phase:valid
+valid Loss: 1.1390
+
+Epoch 97/100
+----------
+phase:train
+train Loss: 1.1050
+phase:valid
+valid Loss: 1.1385
+
+Epoch 98/100
+----------
+phase:train
+train Loss: 1.1063
+phase:valid
+valid Loss: 1.1400
+
+Epoch 99/100
+----------
+phase:train
+train Loss: 1.1033
+phase:valid
+valid Loss: 1.1387
+
+Epoch 100/100
+----------
+phase:train
+train Loss: 1.1024
+phase:valid
+valid Loss: 1.1416
+
+Training complete in 13h 51m 60s
+Best Loss  1.1354323667392396
+Testing on GPU 1
+latest_ckpt_model: /mnt/hdd3/mskim/GBL/code/saved_models/VisionTransformer/11_12_18_12_VisionTransformer_epoch21.pth
+y_pred:tensor([[ 7.5132, -0.5334, -1.0523, -0.9073, -0.9461, -1.0332, -1.0112, -0.9418,
+         -0.9971, -1.0473, -1.0229, -1.0519, -0.9538, -0.8898, -1.0324, -1.0182,
+         -1.0155, -0.9456, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:0
+oneyr_surv_test: [-3.7402217]
+y_pred:tensor([[ 7.5129, -0.5336, -1.0525, -0.9076, -0.9466, -1.0326, -1.0113, -0.9417,
+         -0.9972, -1.0470, -1.0231, -1.0526, -0.9538, -0.8900, -1.0321, -1.0180,
+         -1.0153, -0.9460, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:1
+oneyr_surv_test: [-3.743428]
+y_pred:tensor([[ 7.5139, -0.5334, -1.0525, -0.9082, -0.9465, -1.0336, -1.0113, -0.9416,
+         -0.9967, -1.0467, -1.0240, -1.0514, -0.9543, -0.8898, -1.0322, -1.0179,
+         -1.0154, -0.9456, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:2
+oneyr_surv_test: [-3.7474]
+y_pred:tensor([[ 7.5128, -0.5330, -1.0528, -0.9074, -0.9464, -1.0337, -1.0117, -0.9417,
+         -0.9973, -1.0469, -1.0236, -1.0523, -0.9538, -0.8901, -1.0323, -1.0182,
+         -1.0154, -0.9461, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:3
+oneyr_surv_test: [-3.7421162]
+y_pred:tensor([[ 7.5141, -0.5330, -1.0528, -0.9075, -0.9462, -1.0336, -1.0113, -0.9414,
+         -0.9975, -1.0467, -1.0238, -1.0518, -0.9539, -0.8900, -1.0325, -1.0184,
+         -1.0151, -0.9458, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:4
+oneyr_surv_test: [-3.7427855]
+y_pred:tensor([[ 7.5105, -0.5347, -1.0535, -0.9067, -0.9463, -1.0340, -1.0125, -0.9427,
+         -0.9980, -1.0472, -1.0206, -1.0504, -0.9544, -0.8907, -1.0335, -1.0177,
+         -1.0171, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:5
+oneyr_surv_test: [-3.753291]
+y_pred:tensor([[ 7.5124, -0.5330, -1.0526, -0.9073, -0.9464, -1.0334, -1.0116, -0.9419,
+         -0.9974, -1.0470, -1.0233, -1.0521, -0.9540, -0.8901, -1.0325, -1.0183,
+         -1.0153, -0.9461, -0.9279]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:6
+oneyr_surv_test: [-3.7398276]
+y_pred:tensor([[ 7.5130, -0.5333, -1.0526, -0.9081, -0.9474, -1.0327, -1.0120, -0.9417,
+         -0.9958, -1.0465, -1.0236, -1.0510, -0.9541, -0.8896, -1.0321, -1.0177,
+         -1.0150, -0.9462, -0.9278]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:7
+oneyr_surv_test: [-3.7469027]
+y_pred:tensor([[ 7.5133, -0.5331, -1.0526, -0.9075, -0.9464, -1.0334, -1.0114, -0.9418,
+         -0.9967, -1.0470, -1.0237, -1.0513, -0.9539, -0.8899, -1.0325, -1.0182,
+         -1.0156, -0.9460, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:8
+oneyr_surv_test: [-3.7415736]
+y_pred:tensor([[ 7.5139, -0.5330, -1.0521, -0.9082, -0.9469, -1.0333, -1.0118, -0.9416,
+         -0.9962, -1.0469, -1.0244, -1.0517, -0.9539, -0.8903, -1.0321, -1.0182,
+         -1.0158, -0.9456, -0.9278]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:9
+oneyr_surv_test: [-3.7444904]
+y_pred:tensor([[ 7.5148, -0.5329, -1.0520, -0.9084, -0.9466, -1.0337, -1.0113, -0.9412,
+         -0.9963, -1.0463, -1.0245, -1.0518, -0.9538, -0.8896, -1.0323, -1.0181,
+         -1.0149, -0.9455, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:10
+oneyr_surv_test: [-3.7454417]
+y_pred:tensor([[ 7.5131, -0.5339, -1.0532, -0.9073, -0.9460, -1.0343, -1.0117, -0.9415,
+         -0.9971, -1.0474, -1.0228, -1.0515, -0.9543, -0.8904, -1.0331, -1.0183,
+         -1.0154, -0.9460, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:11
+oneyr_surv_test: [-3.750217]
+y_pred:tensor([[ 7.5142, -0.5330, -1.0526, -0.9079, -0.9465, -1.0338, -1.0115, -0.9414,
+         -0.9966, -1.0469, -1.0241, -1.0521, -0.9540, -0.8899, -1.0323, -1.0181,
+         -1.0152, -0.9457, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:12
+oneyr_surv_test: [-3.7447994]
+y_pred:tensor([[ 7.5130, -0.5335, -1.0528, -0.9079, -0.9466, -1.0333, -1.0118, -0.9418,
+         -0.9971, -1.0472, -1.0234, -1.0522, -0.9536, -0.8897, -1.0321, -1.0178,
+         -1.0155, -0.9456, -0.9279]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:13
+oneyr_surv_test: [-3.7472215]
+y_pred:tensor([[ 7.5132, -0.5328, -1.0525, -0.9074, -0.9463, -1.0337, -1.0114, -0.9413,
+         -0.9971, -1.0470, -1.0236, -1.0521, -0.9541, -0.8904, -1.0325, -1.0181,
+         -1.0153, -0.9459, -0.9285]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:14
+oneyr_surv_test: [-3.7399309]
+y_pred:tensor([[ 7.5129, -0.5328, -1.0531, -0.9073, -0.9464, -1.0338, -1.0119, -0.9413,
+         -0.9970, -1.0472, -1.0236, -1.0513, -0.9543, -0.8903, -1.0324, -1.0180,
+         -1.0159, -0.9463, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:15
+oneyr_surv_test: [-3.7425916]
+y_pred:tensor([[ 7.5136, -0.5329, -1.0527, -0.9075, -0.9463, -1.0337, -1.0118, -0.9415,
+         -0.9967, -1.0469, -1.0239, -1.0522, -0.9539, -0.8900, -1.0325, -1.0184,
+         -1.0153, -0.9460, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0]], device='cuda:1')
+subj_num:16
+oneyr_surv_test: [-3.741489]
+y_pred:tensor([[ 7.5110, -0.5324, -1.0537, -0.9070, -0.9471, -1.0334, -1.0131, -0.9424,
+         -0.9972, -1.0477, -1.0220, -1.0496, -0.9547, -0.8896, -1.0329, -1.0181,
+         -1.0164, -0.9466, -0.9278]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], device='cuda:1')
+subj_num:17
+oneyr_surv_test: [-3.7406137]
+y_pred:tensor([[ 7.5140, -0.5328, -1.0523, -0.9080, -0.9465, -1.0333, -1.0113, -0.9418,
+         -0.9962, -1.0469, -1.0242, -1.0520, -0.9539, -0.8898, -1.0322, -1.0179,
+         -1.0152, -0.9457, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:18
+oneyr_surv_test: [-3.7409594]
+y_pred:tensor([[ 7.5127, -0.5335, -1.0527, -0.9073, -0.9464, -1.0341, -1.0117, -0.9416,
+         -0.9968, -1.0467, -1.0233, -1.0516, -0.9544, -0.8901, -1.0326, -1.0178,
+         -1.0154, -0.9459, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:19
+oneyr_surv_test: [-3.7457604]
+y_pred:tensor([[ 7.5131, -0.5332, -1.0526, -0.9076, -0.9465, -1.0337, -1.0115, -0.9416,
+         -0.9968, -1.0467, -1.0239, -1.0521, -0.9542, -0.8901, -1.0323, -1.0180,
+         -1.0151, -0.9460, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], device='cuda:1')
+subj_num:20
+oneyr_surv_test: [-3.7442331]
+y_pred:tensor([[ 7.5135, -0.5333, -1.0528, -0.9080, -0.9465, -1.0334, -1.0117, -0.9413,
+         -0.9968, -1.0467, -1.0238, -1.0520, -0.9541, -0.8901, -1.0326, -1.0181,
+         -1.0154, -0.9459, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:21
+oneyr_surv_test: [-3.7466865]
+y_pred:tensor([[ 7.5104, -0.5347, -1.0541, -0.9076, -0.9458, -1.0333, -1.0129, -0.9428,
+         -0.9966, -1.0494, -1.0195, -1.0490, -0.9545, -0.8895, -1.0335, -1.0183,
+         -1.0173, -0.9457, -0.9270]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:22
+oneyr_surv_test: [-3.7548099]
+y_pred:tensor([[ 7.5132, -0.5331, -1.0526, -0.9076, -0.9464, -1.0337, -1.0118, -0.9416,
+         -0.9967, -1.0468, -1.0234, -1.0513, -0.9540, -0.8898, -1.0325, -1.0182,
+         -1.0154, -0.9461, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:23
+oneyr_surv_test: [-3.7435248]
+y_pred:tensor([[ 7.5135, -0.5335, -1.0525, -0.9081, -0.9465, -1.0335, -1.0114, -0.9419,
+         -0.9960, -1.0469, -1.0237, -1.0514, -0.9540, -0.8899, -1.0321, -1.0184,
+         -1.0156, -0.9458, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:24
+oneyr_surv_test: [-3.7470315]
+y_pred:tensor([[ 7.5131, -0.5332, -1.0529, -0.9074, -0.9462, -1.0336, -1.0114, -0.9416,
+         -0.9972, -1.0473, -1.0235, -1.0522, -0.9539, -0.8900, -1.0326, -1.0182,
+         -1.0154, -0.9461, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], device='cuda:1')
+subj_num:25
+oneyr_surv_test: [-3.7431722]
+y_pred:tensor([[ 7.5128, -0.5337, -1.0528, -0.9077, -0.9464, -1.0339, -1.0114, -0.9417,
+         -0.9966, -1.0469, -1.0235, -1.0517, -0.9541, -0.8903, -1.0326, -1.0182,
+         -1.0153, -0.9459, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:26
+oneyr_surv_test: [-3.7494426]
+y_pred:tensor([[ 7.5124, -0.5329, -1.0528, -0.9075, -0.9466, -1.0329, -1.0115, -0.9420,
+         -0.9970, -1.0469, -1.0231, -1.0520, -0.9540, -0.8901, -1.0324, -1.0183,
+         -1.0152, -0.9461, -0.9277]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:27
+oneyr_surv_test: [-3.7395325]
+y_pred:tensor([[ 7.5127, -0.5335, -1.0526, -0.9075, -0.9464, -1.0339, -1.0114, -0.9419,
+         -0.9968, -1.0470, -1.0231, -1.0505, -0.9541, -0.8902, -1.0325, -1.0184,
+         -1.0157, -0.9459, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:28
+oneyr_surv_test: [-3.746592]
+y_pred:tensor([[ 7.5124, -0.5343, -1.0534, -0.9078, -0.9462, -1.0341, -1.0121, -0.9418,
+         -0.9968, -1.0472, -1.0228, -1.0506, -0.9540, -0.8902, -1.0329, -1.0181,
+         -1.0160, -0.9459, -0.9278]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:29
+oneyr_surv_test: [-3.7552793]
+y_pred:tensor([[ 7.5127, -0.5333, -1.0528, -0.9074, -0.9461, -1.0338, -1.0114, -0.9421,
+         -0.9966, -1.0470, -1.0235, -1.0517, -0.9541, -0.8898, -1.0323, -1.0182,
+         -1.0154, -0.9462, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:30
+oneyr_surv_test: [-3.7433698]
+y_pred:tensor([[ 7.5124, -0.5332, -1.0528, -0.9074, -0.9467, -1.0336, -1.0118, -0.9417,
+         -0.9972, -1.0471, -1.0233, -1.0521, -0.9540, -0.8902, -1.0325, -1.0180,
+         -1.0153, -0.9459, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:31
+oneyr_surv_test: [-3.744166]
+y_pred:tensor([[ 7.5142, -0.5330, -1.0522, -0.9083, -0.9464, -1.0334, -1.0113, -0.9416,
+         -0.9963, -1.0467, -1.0244, -1.0520, -0.9538, -0.8898, -1.0322, -1.0181,
+         -1.0154, -0.9458, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:32
+oneyr_surv_test: [-3.7435756]
+y_pred:tensor([[ 7.5124, -0.5334, -1.0532, -0.9080, -0.9462, -1.0338, -1.0123, -0.9418,
+         -0.9964, -1.0465, -1.0223, -1.0502, -0.9542, -0.8900, -1.0331, -1.0187,
+         -1.0162, -0.9466, -0.9276]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:33
+oneyr_surv_test: [-3.7483113]
+y_pred:tensor([[ 7.5125, -0.5330, -1.0529, -0.9076, -0.9467, -1.0332, -1.0118, -0.9419,
+         -0.9969, -1.0471, -1.0233, -1.0521, -0.9538, -0.8897, -1.0322, -1.0182,
+         -1.0153, -0.9460, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:34
+oneyr_surv_test: [-3.7427843]
+y_pred:tensor([[ 7.5133, -0.5333, -1.0524, -0.9080, -0.9463, -1.0334, -1.0117, -0.9416,
+         -0.9960, -1.0469, -1.0232, -1.0506, -0.9541, -0.8898, -1.0323, -1.0181,
+         -1.0158, -0.9460, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:35
+oneyr_surv_test: [-3.7442777]
+y_pred:tensor([[ 7.5138, -0.5337, -1.0528, -0.9078, -0.9463, -1.0335, -1.0114, -0.9421,
+         -0.9970, -1.0478, -1.0227, -1.0510, -0.9535, -0.8892, -1.0322, -1.0175,
+         -1.0158, -0.9450, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:36
+oneyr_surv_test: [-3.7486606]
+y_pred:tensor([[ 7.5124, -0.5334, -1.0531, -0.9075, -0.9466, -1.0336, -1.0116, -0.9414,
+         -0.9970, -1.0472, -1.0234, -1.0527, -0.9541, -0.8902, -1.0326, -1.0183,
+         -1.0151, -0.9460, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:37
+oneyr_surv_test: [-3.7471778]
+y_pred:tensor([[ 7.5138, -0.5338, -1.0525, -0.9071, -0.9464, -1.0335, -1.0118, -0.9420,
+         -0.9973, -1.0475, -1.0232, -1.0515, -0.9538, -0.8899, -1.0320, -1.0178,
+         -1.0163, -0.9456, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], device='cuda:1')
+subj_num:38
+oneyr_surv_test: [-3.7456174]
+y_pred:tensor([[ 7.5116, -0.5335, -1.0529, -0.9076, -0.9465, -1.0330, -1.0122, -0.9427,
+         -0.9977, -1.0481, -1.0217, -1.0513, -0.9536, -0.8899, -1.0324, -1.0182,
+         -1.0157, -0.9460, -0.9271]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:39
+oneyr_surv_test: [-3.7441707]
+y_pred:tensor([[ 7.5132, -0.5337, -1.0526, -0.9080, -0.9467, -1.0338, -1.0116, -0.9418,
+         -0.9965, -1.0469, -1.0237, -1.0518, -0.9537, -0.8899, -1.0322, -1.0180,
+         -1.0157, -0.9457, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:40
+oneyr_surv_test: [-3.750328]
+y_pred:tensor([[ 7.5137, -0.5333, -1.0529, -0.9080, -0.9467, -1.0337, -1.0114, -0.9413,
+         -0.9966, -1.0466, -1.0244, -1.0521, -0.9537, -0.8900, -1.0327, -1.0183,
+         -1.0148, -0.9456, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:41
+oneyr_surv_test: [-3.7488687]
+y_pred:tensor([[ 7.5131, -0.5329, -1.0523, -0.9074, -0.9465, -1.0332, -1.0114, -0.9420,
+         -0.9971, -1.0473, -1.0231, -1.0518, -0.9538, -0.8900, -1.0322, -1.0181,
+         -1.0156, -0.9456, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:42
+oneyr_surv_test: [-3.7388167]
+y_pred:tensor([[ 7.5130, -0.5341, -1.0529, -0.9082, -0.9461, -1.0338, -1.0122, -0.9431,
+         -0.9962, -1.0483, -1.0223, -1.0511, -0.9537, -0.8882, -1.0317, -1.0171,
+         -1.0175, -0.9446, -0.9277]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:43
+oneyr_surv_test: [-3.7528853]
+y_pred:tensor([[ 7.5137, -0.5334, -1.0524, -0.9080, -0.9466, -1.0339, -1.0113, -0.9412,
+         -0.9962, -1.0463, -1.0244, -1.0522, -0.9543, -0.8904, -1.0324, -1.0182,
+         -1.0150, -0.9458, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:44
+oneyr_surv_test: [-3.7480292]
+y_pred:tensor([[ 7.5131, -0.5325, -1.0528, -0.9074, -0.9464, -1.0331, -1.0117, -0.9419,
+         -0.9976, -1.0474, -1.0231, -1.0515, -0.9540, -0.8898, -1.0325, -1.0184,
+         -1.0157, -0.9462, -0.9277]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:45
+oneyr_surv_test: [-3.7368665]
+y_pred:tensor([[ 7.5136, -0.5331, -1.0527, -0.9080, -0.9465, -1.0337, -1.0116, -0.9416,
+         -0.9964, -1.0469, -1.0241, -1.0520, -0.9541, -0.8899, -1.0322, -1.0181,
+         -1.0152, -0.9460, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:46
+oneyr_surv_test: [-3.7460785]
+y_pred:tensor([[ 7.5133, -0.5329, -1.0526, -0.9072, -0.9464, -1.0336, -1.0115, -0.9417,
+         -0.9975, -1.0469, -1.0235, -1.0522, -0.9538, -0.8900, -1.0324, -1.0184,
+         -1.0152, -0.9460, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:47
+oneyr_surv_test: [-3.7400959]
+y_pred:tensor([[ 7.5116, -0.5331, -1.0534, -0.9075, -0.9466, -1.0330, -1.0121, -0.9424,
+         -0.9974, -1.0475, -1.0227, -1.0514, -0.9534, -0.8900, -1.0328, -1.0183,
+         -1.0156, -0.9465, -0.9272]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:48
+oneyr_surv_test: [-3.7432928]
+y_pred:tensor([[ 7.5132, -0.5328, -1.0527, -0.9073, -0.9464, -1.0334, -1.0117, -0.9416,
+         -0.9972, -1.0467, -1.0236, -1.0523, -0.9541, -0.8902, -1.0323, -1.0183,
+         -1.0152, -0.9460, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:49
+oneyr_surv_test: [-3.7394426]
+y_pred:tensor([[ 7.5113, -0.5339, -1.0530, -0.9069, -0.9462, -1.0336, -1.0120, -0.9420,
+         -0.9974, -1.0472, -1.0219, -1.0508, -0.9541, -0.8902, -1.0329, -1.0183,
+         -1.0161, -0.9462, -0.9278]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:50
+oneyr_surv_test: [-3.7460196]
+y_pred:tensor([[ 7.5133, -0.5332, -1.0531, -0.9073, -0.9465, -1.0335, -1.0115, -0.9412,
+         -0.9971, -1.0470, -1.0238, -1.0522, -0.9542, -0.8901, -1.0325, -1.0185,
+         -1.0151, -0.9462, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:51
+oneyr_surv_test: [-3.7438877]
+y_pred:tensor([[ 7.5116, -0.5326, -1.0535, -0.9072, -0.9463, -1.0326, -1.0116, -0.9425,
+         -0.9966, -1.0476, -1.0213, -1.0498, -0.9546, -0.8895, -1.0325, -1.0189,
+         -1.0161, -0.9464, -0.9277]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:52
+oneyr_surv_test: [-3.736362]
+y_pred:tensor([[ 7.5125, -0.5353, -1.0530, -0.9069, -0.9459, -1.0342, -1.0120, -0.9440,
+         -0.9969, -1.0485, -1.0215, -1.0487, -0.9542, -0.8900, -1.0335, -1.0179,
+         -1.0166, -0.9448, -0.9275]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:53
+oneyr_surv_test: [-3.7565904]
+y_pred:tensor([[ 7.5116, -0.5333, -1.0530, -0.9074, -0.9467, -1.0327, -1.0124, -0.9421,
+         -0.9971, -1.0479, -1.0214, -1.0506, -0.9538, -0.8899, -1.0329, -1.0184,
+         -1.0158, -0.9459, -0.9275]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0]], device='cuda:1')
+subj_num:54
+oneyr_surv_test: [-3.7426617]
+y_pred:tensor([[ 7.5135, -0.5326, -1.0523, -0.9075, -0.9465, -1.0333, -1.0112, -0.9415,
+         -0.9967, -1.0468, -1.0239, -1.0522, -0.9539, -0.8901, -1.0325, -1.0182,
+         -1.0152, -0.9460, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:55
+oneyr_surv_test: [-3.7374208]
+y_pred:tensor([[ 7.5132, -0.5329, -1.0529, -0.9074, -0.9464, -1.0338, -1.0117, -0.9415,
+         -0.9969, -1.0472, -1.0236, -1.0521, -0.9538, -0.8902, -1.0325, -1.0181,
+         -1.0154, -0.9459, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:56
+oneyr_surv_test: [-3.7426858]
+y_pred:tensor([[ 7.5118, -0.5332, -1.0528, -0.9073, -0.9464, -1.0333, -1.0115, -0.9419,
+         -0.9970, -1.0471, -1.0231, -1.0524, -0.9538, -0.8902, -1.0326, -1.0182,
+         -1.0154, -0.9463, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:57
+oneyr_surv_test: [-3.7415624]
+y_pred:tensor([[ 7.5130, -0.5333, -1.0528, -0.9077, -0.9468, -1.0329, -1.0119, -0.9422,
+         -0.9970, -1.0475, -1.0230, -1.0514, -0.9537, -0.8896, -1.0320, -1.0179,
+         -1.0157, -0.9456, -0.9278]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:58
+oneyr_surv_test: [-3.7446434]
+y_pred:tensor([[ 7.5134, -0.5328, -1.0528, -0.9075, -0.9464, -1.0335, -1.0119, -0.9413,
+         -0.9973, -1.0472, -1.0236, -1.0518, -0.9538, -0.8899, -1.0325, -1.0179,
+         -1.0156, -0.9460, -0.9279]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:59
+oneyr_surv_test: [-3.7411835]
+y_pred:tensor([[ 7.5123, -0.5334, -1.0528, -0.9073, -0.9463, -1.0336, -1.0118, -0.9419,
+         -0.9972, -1.0474, -1.0230, -1.0521, -0.9538, -0.8901, -1.0324, -1.0179,
+         -1.0154, -0.9459, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:60
+oneyr_surv_test: [-3.743537]
+y_pred:tensor([[ 7.5137, -0.5328, -1.0525, -0.9076, -0.9467, -1.0338, -1.0117, -0.9411,
+         -0.9964, -1.0470, -1.0241, -1.0518, -0.9538, -0.8902, -1.0324, -1.0180,
+         -1.0156, -0.9457, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:61
+oneyr_surv_test: [-3.7426457]
+y_pred:tensor([[ 7.5134, -0.5331, -1.0531, -0.9073, -0.9465, -1.0334, -1.0117, -0.9413,
+         -0.9974, -1.0474, -1.0237, -1.0521, -0.9537, -0.8900, -1.0326, -1.0182,
+         -1.0154, -0.9461, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:62
+oneyr_surv_test: [-3.7429204]
+y_pred:tensor([[ 7.5084, -0.5360, -1.0547, -0.9076, -0.9472, -1.0340, -1.0135, -0.9427,
+         -0.9967, -1.0479, -1.0187, -1.0488, -0.9556, -0.8908, -1.0343, -1.0184,
+         -1.0177, -0.9457, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:63
+oneyr_surv_test: [-3.7731493]
+y_pred:tensor([[ 7.5140, -0.5326, -1.0528, -0.9075, -0.9467, -1.0338, -1.0117, -0.9410,
+         -0.9971, -1.0470, -1.0241, -1.0520, -0.9538, -0.8900, -1.0325, -1.0179,
+         -1.0153, -0.9458, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:64
+oneyr_surv_test: [-3.7423415]
+y_pred:tensor([[ 7.5136, -0.5329, -1.0530, -0.9076, -0.9465, -1.0333, -1.0115, -0.9413,
+         -0.9972, -1.0469, -1.0237, -1.0520, -0.9538, -0.8899, -1.0327, -1.0183,
+         -1.0152, -0.9460, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:65
+oneyr_surv_test: [-3.7426994]
+y_pred:tensor([[ 7.5152, -0.5330, -1.0528, -0.9081, -0.9463, -1.0348, -1.0116, -0.9407,
+         -0.9964, -1.0460, -1.0253, -1.0510, -0.9542, -0.8891, -1.0322, -1.0180,
+         -1.0147, -0.9458, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:66
+oneyr_surv_test: [-3.7499962]
+y_pred:tensor([[ 7.5134, -0.5329, -1.0529, -0.9072, -0.9465, -1.0337, -1.0118, -0.9412,
+         -0.9973, -1.0473, -1.0236, -1.0520, -0.9540, -0.8902, -1.0323, -1.0181,
+         -1.0158, -0.9461, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0]], device='cuda:1')
+subj_num:67
+oneyr_surv_test: [-3.7412755]
+y_pred:tensor([[ 7.5124, -0.5336, -1.0530, -0.9079, -0.9467, -1.0335, -1.0118, -0.9416,
+         -0.9968, -1.0470, -1.0235, -1.0521, -0.9537, -0.8899, -1.0325, -1.0180,
+         -1.0151, -0.9460, -0.9279]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:68
+oneyr_surv_test: [-3.7490597]
+y_pred:tensor([[ 7.5110, -0.5343, -1.0538, -0.9066, -0.9460, -1.0343, -1.0119, -0.9429,
+         -0.9976, -1.0477, -1.0208, -1.0499, -0.9544, -0.8907, -1.0340, -1.0190,
+         -1.0167, -0.9460, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:69
+oneyr_surv_test: [-3.7515705]
+y_pred:tensor([[ 7.5132, -0.5331, -1.0524, -0.9079, -0.9465, -1.0336, -1.0115, -0.9414,
+         -0.9964, -1.0466, -1.0242, -1.0524, -0.9539, -0.8900, -1.0323, -1.0179,
+         -1.0154, -0.9459, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:70
+oneyr_surv_test: [-3.7439942]
+y_pred:tensor([[ 7.5132, -0.5335, -1.0530, -0.9075, -0.9466, -1.0335, -1.0114, -0.9412,
+         -0.9967, -1.0469, -1.0240, -1.0522, -0.9542, -0.8901, -1.0327, -1.0184,
+         -1.0150, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:71
+oneyr_surv_test: [-3.7475226]
+y_pred:tensor([[ 7.5112, -0.5369, -1.0514, -0.9081, -0.9468, -1.0336, -1.0130, -0.9435,
+         -0.9971, -1.0483, -1.0185, -1.0472, -0.9551, -0.8917, -1.0354, -1.0162,
+         -1.0175, -0.9443, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:72
+oneyr_surv_test: [-3.7681704]
+y_pred:tensor([[ 7.5133, -0.5335, -1.0527, -0.9079, -0.9465, -1.0336, -1.0118, -0.9416,
+         -0.9967, -1.0470, -1.0239, -1.0519, -0.9540, -0.8901, -1.0323, -1.0179,
+         -1.0155, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:73
+oneyr_surv_test: [-3.7480812]
+y_pred:tensor([[ 7.5145, -0.5324, -1.0521, -0.9079, -0.9464, -1.0337, -1.0113, -0.9413,
+         -0.9965, -1.0465, -1.0241, -1.0519, -0.9535, -0.8896, -1.0325, -1.0180,
+         -1.0151, -0.9457, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:74
+oneyr_surv_test: [-3.7387183]
+y_pred:tensor([[ 7.5145, -0.5324, -1.0521, -0.9079, -0.9463, -1.0336, -1.0114, -0.9416,
+         -0.9971, -1.0466, -1.0240, -1.0517, -0.9536, -0.8893, -1.0324, -1.0183,
+         -1.0153, -0.9459, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:75
+oneyr_surv_test: [-3.7378764]
+y_pred:tensor([[ 7.5131, -0.5336, -1.0534, -0.9077, -0.9462, -1.0339, -1.0120, -0.9417,
+         -0.9966, -1.0472, -1.0231, -1.0509, -0.9542, -0.8897, -1.0326, -1.0182,
+         -1.0162, -0.9456, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:76
+oneyr_surv_test: [-3.7496707]
+y_pred:tensor([[ 7.5137, -0.5331, -1.0528, -0.9079, -0.9465, -1.0337, -1.0117, -0.9413,
+         -0.9965, -1.0469, -1.0242, -1.0519, -0.9540, -0.8897, -1.0323, -1.0179,
+         -1.0152, -0.9458, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], device='cuda:1')
+subj_num:77
+oneyr_surv_test: [-3.7457778]
+y_pred:tensor([[ 7.5120, -0.5333, -1.0530, -0.9075, -0.9471, -1.0329, -1.0120, -0.9419,
+         -0.9967, -1.0472, -1.0231, -1.0515, -0.9539, -0.8898, -1.0323, -1.0179,
+         -1.0154, -0.9461, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:78
+oneyr_surv_test: [-3.7452285]
+y_pred:tensor([[ 7.5134, -0.5328, -1.0529, -0.9075, -0.9467, -1.0335, -1.0117, -0.9414,
+         -0.9973, -1.0469, -1.0235, -1.0521, -0.9536, -0.8895, -1.0324, -1.0182,
+         -1.0149, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:79
+oneyr_surv_test: [-3.7426686]
+y_pred:tensor([[ 7.5136, -0.5332, -1.0527, -0.9078, -0.9465, -1.0337, -1.0115, -0.9414,
+         -0.9968, -1.0471, -1.0242, -1.0517, -0.9540, -0.8903, -1.0324, -1.0182,
+         -1.0152, -0.9460, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:80
+oneyr_surv_test: [-3.745839]
+y_pred:tensor([[ 7.5129, -0.5335, -1.0530, -0.9079, -0.9463, -1.0339, -1.0118, -0.9415,
+         -0.9974, -1.0471, -1.0231, -1.0517, -0.9538, -0.8897, -1.0328, -1.0178,
+         -1.0158, -0.9460, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:81
+oneyr_surv_test: [-3.7485518]
+y_pred:tensor([[ 7.5110, -0.5333, -1.0533, -0.9068, -0.9461, -1.0345, -1.0127, -0.9425,
+         -0.9968, -1.0474, -1.0228, -1.0519, -0.9536, -0.8904, -1.0328, -1.0176,
+         -1.0162, -0.9465, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:82
+oneyr_surv_test: [-3.744631]
+y_pred:tensor([[ 7.5123, -0.5336, -1.0526, -0.9080, -0.9462, -1.0332, -1.0119, -0.9421,
+         -0.9967, -1.0469, -1.0223, -1.0508, -0.9540, -0.8899, -1.0325, -1.0181,
+         -1.0159, -0.9467, -0.9274]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], device='cuda:1')
+subj_num:83
+oneyr_surv_test: [-3.7448912]
+y_pred:tensor([[ 7.5134, -0.5334, -1.0526, -0.9077, -0.9463, -1.0336, -1.0116, -0.9416,
+         -0.9969, -1.0472, -1.0236, -1.0521, -0.9538, -0.8899, -1.0325, -1.0182,
+         -1.0153, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:84
+oneyr_surv_test: [-3.7448468]
+y_pred:tensor([[ 7.5104, -0.5369, -1.0528, -0.9077, -0.9458, -1.0340, -1.0133, -0.9435,
+         -0.9968, -1.0495, -1.0193, -1.0475, -0.9554, -0.8906, -1.0343, -1.0166,
+         -1.0180, -0.9444, -0.9268]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:85
+oneyr_surv_test: [-3.768556]
+y_pred:tensor([[ 7.5127, -0.5336, -1.0530, -0.9076, -0.9465, -1.0332, -1.0116, -0.9413,
+         -0.9965, -1.0470, -1.0234, -1.0522, -0.9542, -0.8901, -1.0325, -1.0182,
+         -1.0154, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:86
+oneyr_surv_test: [-3.747292]
+y_pred:tensor([[ 7.5120, -0.5333, -1.0518, -0.9066, -0.9495, -1.0315, -1.0134, -0.9421,
+         -0.9970, -1.0475, -1.0186, -1.0472, -0.9560, -0.8902, -1.0337, -1.0176,
+         -1.0140, -0.9450, -0.9285]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:87
+oneyr_surv_test: [-3.7409673]
+y_pred:tensor([[ 7.5131, -0.5332, -1.0527, -0.9077, -0.9465, -1.0335, -1.0114, -0.9416,
+         -0.9968, -1.0467, -1.0239, -1.0521, -0.9539, -0.8899, -1.0326, -1.0182,
+         -1.0152, -0.9458, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], device='cuda:1')
+subj_num:88
+oneyr_surv_test: [-3.7449117]
+y_pred:tensor([[ 7.5133, -0.5334, -1.0527, -0.9080, -0.9467, -1.0336, -1.0114, -0.9412,
+         -0.9965, -1.0467, -1.0239, -1.0521, -0.9539, -0.8903, -1.0323, -1.0181,
+         -1.0151, -0.9458, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:89
+oneyr_surv_test: [-3.748307]
+y_pred:tensor([[ 7.5129, -0.5333, -1.0529, -0.9075, -0.9466, -1.0337, -1.0119, -0.9414,
+         -0.9965, -1.0470, -1.0238, -1.0513, -0.9541, -0.8906, -1.0324, -1.0184,
+         -1.0153, -0.9460, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:90
+oneyr_surv_test: [-3.7456987]
+y_pred:tensor([[ 7.5136, -0.5333, -1.0526, -0.9079, -0.9466, -1.0336, -1.0115, -0.9413,
+         -0.9965, -1.0466, -1.0240, -1.0520, -0.9542, -0.8901, -1.0323, -1.0181,
+         -1.0152, -0.9458, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0]], device='cuda:1')
+subj_num:91
+oneyr_surv_test: [-3.7468503]
+y_pred:tensor([[ 7.5135, -0.5332, -1.0531, -0.9076, -0.9464, -1.0336, -1.0115, -0.9413,
+         -0.9969, -1.0468, -1.0236, -1.0517, -0.9540, -0.8901, -1.0325, -1.0181,
+         -1.0152, -0.9458, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0]], device='cuda:1')
+subj_num:92
+oneyr_surv_test: [-3.7457154]
+y_pred:tensor([[ 7.5139, -0.5329, -1.0527, -0.9074, -0.9462, -1.0336, -1.0115, -0.9412,
+         -0.9971, -1.0469, -1.0236, -1.0522, -0.9539, -0.8898, -1.0325, -1.0182,
+         -1.0151, -0.9459, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:93
+oneyr_surv_test: [-3.7406015]
+y_pred:tensor([[ 7.5129, -0.5329, -1.0524, -0.9075, -0.9463, -1.0335, -1.0115, -0.9415,
+         -0.9970, -1.0472, -1.0236, -1.0524, -0.9536, -0.8901, -1.0326, -1.0183,
+         -1.0149, -0.9460, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:94
+oneyr_surv_test: [-3.7395983]
+y_pred:tensor([[ 7.5128, -0.5332, -1.0528, -0.9074, -0.9465, -1.0333, -1.0114, -0.9417,
+         -0.9968, -1.0471, -1.0236, -1.0520, -0.9543, -0.8902, -1.0325, -1.0181,
+         -1.0153, -0.9460, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:95
+oneyr_surv_test: [-3.7430847]
+y_pred:tensor([[ 7.5135, -0.5325, -1.0525, -0.9075, -0.9466, -1.0333, -1.0116, -0.9414,
+         -0.9970, -1.0473, -1.0238, -1.0518, -0.9539, -0.8903, -1.0327, -1.0179,
+         -1.0156, -0.9460, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:96
+oneyr_surv_test: [-3.738178]
+y_pred:tensor([[ 7.5135, -0.5330, -1.0524, -0.9076, -0.9465, -1.0336, -1.0117, -0.9415,
+         -0.9970, -1.0473, -1.0237, -1.0521, -0.9542, -0.8902, -1.0324, -1.0180,
+         -1.0156, -0.9457, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:97
+oneyr_surv_test: [-3.7421849]
+y_pred:tensor([[ 7.5114, -0.5333, -1.0528, -0.9071, -0.9465, -1.0330, -1.0118, -0.9421,
+         -0.9973, -1.0474, -1.0229, -1.0524, -0.9540, -0.8902, -1.0326, -1.0180,
+         -1.0157, -0.9463, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:98
+oneyr_surv_test: [-3.7401376]
+y_pred:tensor([[ 7.5129, -0.5330, -1.0526, -0.9074, -0.9463, -1.0332, -1.0112, -0.9416,
+         -0.9969, -1.0474, -1.0235, -1.0522, -0.9540, -0.8902, -1.0325, -1.0182,
+         -1.0154, -0.9461, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:99
+oneyr_surv_test: [-3.739077]
+y_pred:tensor([[ 7.5134, -0.5336, -1.0526, -0.9080, -0.9470, -1.0322, -1.0116, -0.9421,
+         -0.9968, -1.0480, -1.0222, -1.0510, -0.9536, -0.8891, -1.0321, -1.0179,
+         -1.0155, -0.9454, -0.9279]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], device='cuda:1')
+subj_num:100
+oneyr_surv_test: [-3.7458124]
+y_pred:tensor([[ 7.5127, -0.5330, -1.0530, -0.9075, -0.9467, -1.0331, -1.0118, -0.9416,
+         -0.9972, -1.0471, -1.0232, -1.0519, -0.9537, -0.8896, -1.0326, -1.0182,
+         -1.0150, -0.9462, -0.9278]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:101
+oneyr_surv_test: [-3.741877]
+y_pred:tensor([[ 7.5131, -0.5331, -1.0529, -0.9075, -0.9465, -1.0336, -1.0115, -0.9413,
+         -0.9971, -1.0473, -1.0238, -1.0523, -0.9541, -0.8902, -1.0325, -1.0180,
+         -1.0155, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:102
+oneyr_surv_test: [-3.7436304]
+y_pred:tensor([[ 7.5141, -0.5333, -1.0528, -0.9080, -0.9466, -1.0336, -1.0117, -0.9412,
+         -0.9970, -1.0467, -1.0241, -1.0516, -0.9538, -0.8896, -1.0321, -1.0181,
+         -1.0152, -0.9456, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:103
+oneyr_surv_test: [-3.7478862]
+y_pred:tensor([[ 7.5133, -0.5335, -1.0524, -0.9078, -0.9465, -1.0332, -1.0115, -0.9417,
+         -0.9970, -1.0468, -1.0234, -1.0519, -0.9538, -0.8899, -1.0324, -1.0182,
+         -1.0152, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:104
+oneyr_surv_test: [-3.7449758]
+y_pred:tensor([[ 7.5130, -0.5331, -1.0529, -0.9074, -0.9463, -1.0336, -1.0115, -0.9415,
+         -0.9971, -1.0470, -1.0234, -1.0520, -0.9541, -0.8901, -1.0327, -1.0183,
+         -1.0153, -0.9460, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:105
+oneyr_surv_test: [-3.7427394]
+y_pred:tensor([[ 7.5133, -0.5334, -1.0524, -0.9078, -0.9466, -1.0332, -1.0113, -0.9417,
+         -0.9966, -1.0471, -1.0234, -1.0520, -0.9538, -0.8898, -1.0322, -1.0179,
+         -1.0152, -0.9456, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:106
+oneyr_surv_test: [-3.7448435]
+y_pred:tensor([[ 7.5136, -0.5327, -1.0528, -0.9074, -0.9463, -1.0334, -1.0114, -0.9415,
+         -0.9972, -1.0468, -1.0236, -1.0517, -0.9539, -0.8898, -1.0325, -1.0184,
+         -1.0152, -0.9461, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], device='cuda:1')
+subj_num:107
+oneyr_surv_test: [-3.7390382]
+y_pred:tensor([[ 7.5084, -0.5368, -1.0546, -0.9068, -0.9471, -1.0347, -1.0141, -0.9442,
+         -0.9972, -1.0491, -1.0188, -1.0487, -0.9548, -0.8907, -1.0342, -1.0183,
+         -1.0174, -0.9448, -0.9273]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:108
+oneyr_surv_test: [-3.7770214]
+y_pred:tensor([[ 7.5136, -0.5328, -1.0527, -0.9075, -0.9466, -1.0333, -1.0114, -0.9412,
+         -0.9971, -1.0470, -1.0234, -1.0518, -0.9540, -0.8903, -1.0325, -1.0181,
+         -1.0154, -0.9460, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:109
+oneyr_surv_test: [-3.740721]
+y_pred:tensor([[ 7.5114, -0.5335, -1.0533, -0.9069, -0.9460, -1.0334, -1.0123, -0.9425,
+         -0.9973, -1.0479, -1.0217, -1.0505, -0.9539, -0.8900, -1.0332, -1.0187,
+         -1.0163, -0.9464, -0.9275]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:110
+oneyr_surv_test: [-3.7424586]
+y_pred:tensor([[ 7.5093, -0.5363, -1.0543, -0.9079, -0.9463, -1.0340, -1.0139, -0.9433,
+         -0.9967, -1.0488, -1.0189, -1.0484, -0.9545, -0.8906, -1.0344, -1.0180,
+         -1.0178, -0.9453, -0.9266]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:111
+oneyr_surv_test: [-3.7724862]
+y_pred:tensor([[ 7.5138, -0.5335, -1.0527, -0.9081, -0.9466, -1.0331, -1.0113, -0.9414,
+         -0.9965, -1.0466, -1.0237, -1.0514, -0.9541, -0.8899, -1.0321, -1.0180,
+         -1.0155, -0.9456, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:112
+oneyr_surv_test: [-3.7474918]
+y_pred:tensor([[ 7.5128, -0.5335, -1.0525, -0.9074, -0.9461, -1.0339, -1.0117, -0.9417,
+         -0.9970, -1.0469, -1.0235, -1.0518, -0.9537, -0.8904, -1.0326, -1.0179,
+         -1.0154, -0.9460, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:113
+oneyr_surv_test: [-3.7441924]
+y_pred:tensor([[ 7.5134, -0.5329, -1.0530, -0.9074, -0.9463, -1.0337, -1.0115, -0.9413,
+         -0.9971, -1.0473, -1.0237, -1.0523, -0.9540, -0.8899, -1.0324, -1.0182,
+         -1.0155, -0.9461, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:114
+oneyr_surv_test: [-3.7420354]
+y_pred:tensor([[ 7.5132, -0.5332, -1.0528, -0.9076, -0.9465, -1.0335, -1.0117, -0.9412,
+         -0.9965, -1.0467, -1.0239, -1.0522, -0.9541, -0.8899, -1.0325, -1.0183,
+         -1.0152, -0.9460, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:115
+oneyr_surv_test: [-3.744591]
+y_pred:tensor([[ 7.5089, -0.5367, -1.0546, -0.9064, -0.9472, -1.0355, -1.0138, -0.9440,
+         -0.9977, -1.0487, -1.0190, -1.0486, -0.9546, -0.8908, -1.0344, -1.0180,
+         -1.0166, -0.9448, -0.9276]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:116
+oneyr_surv_test: [-3.7784817]
+y_pred:tensor([[ 7.5144, -0.5330, -1.0520, -0.9081, -0.9466, -1.0332, -1.0111, -0.9416,
+         -0.9963, -1.0467, -1.0242, -1.0519, -0.9538, -0.8897, -1.0321, -1.0178,
+         -1.0153, -0.9455, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:117
+oneyr_surv_test: [-3.7423468]
+y_pred:tensor([[ 7.5136, -0.5328, -1.0529, -0.9073, -0.9463, -1.0339, -1.0115, -0.9415,
+         -0.9974, -1.0469, -1.0235, -1.0520, -0.9537, -0.8899, -1.0327, -1.0182,
+         -1.0153, -0.9461, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:118
+oneyr_surv_test: [-3.7412724]
+y_pred:tensor([[ 7.5130, -0.5334, -1.0529, -0.9078, -0.9467, -1.0338, -1.0115, -0.9415,
+         -0.9963, -1.0467, -1.0242, -1.0521, -0.9538, -0.8903, -1.0326, -1.0180,
+         -1.0151, -0.9457, -0.9283]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]], device='cuda:1')
+subj_num:119
+oneyr_surv_test: [-3.7481413]
+y_pred:tensor([[ 7.5081, -0.5373, -1.0546, -0.9068, -0.9462, -1.0355, -1.0139, -0.9439,
+         -0.9972, -1.0491, -1.0187, -1.0489, -0.9547, -0.8908, -1.0346, -1.0187,
+         -1.0164, -0.9448, -0.9277]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:120
+oneyr_surv_test: [-3.7799258]
+y_pred:tensor([[ 7.5133, -0.5327, -1.0527, -0.9074, -0.9465, -1.0335, -1.0114, -0.9416,
+         -0.9970, -1.0469, -1.0233, -1.0522, -0.9537, -0.8899, -1.0326, -1.0183,
+         -1.0151, -0.9459, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:121
+oneyr_surv_test: [-3.7394495]
+y_pred:tensor([[ 7.5131, -0.5329, -1.0528, -0.9074, -0.9465, -1.0333, -1.0118, -0.9414,
+         -0.9972, -1.0467, -1.0232, -1.0508, -0.9540, -0.8897, -1.0325, -1.0185,
+         -1.0154, -0.9463, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:122
+oneyr_surv_test: [-3.741259]
+y_pred:tensor([[ 7.5130, -0.5334, -1.0527, -0.9079, -0.9466, -1.0333, -1.0115, -0.9413,
+         -0.9965, -1.0463, -1.0241, -1.0522, -0.9537, -0.8900, -1.0326, -1.0184,
+         -1.0148, -0.9459, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:123
+oneyr_surv_test: [-3.7461321]
+y_pred:tensor([[ 7.5133, -0.5332, -1.0527, -0.9076, -0.9464, -1.0334, -1.0116, -0.9414,
+         -0.9971, -1.0467, -1.0239, -1.0521, -0.9540, -0.8898, -1.0325, -1.0180,
+         -1.0153, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:124
+oneyr_surv_test: [-3.743243]
+y_pred:tensor([[ 7.5132, -0.5333, -1.0529, -0.9078, -0.9466, -1.0334, -1.0115, -0.9413,
+         -0.9963, -1.0465, -1.0236, -1.0515, -0.9541, -0.8898, -1.0324, -1.0183,
+         -1.0150, -0.9459, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:125
+oneyr_surv_test: [-3.74638]
+y_pred:tensor([[ 7.5132, -0.5331, -1.0528, -0.9077, -0.9466, -1.0334, -1.0117, -0.9415,
+         -0.9965, -1.0466, -1.0240, -1.0519, -0.9540, -0.8900, -1.0322, -1.0181,
+         -1.0152, -0.9459, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0]], device='cuda:1')
+subj_num:126
+oneyr_surv_test: [-3.7447066]
+y_pred:tensor([[ 7.5133, -0.5333, -1.0523, -0.9077, -0.9464, -1.0331, -1.0111, -0.9414,
+         -0.9964, -1.0468, -1.0236, -1.0520, -0.9541, -0.8901, -1.0324, -1.0182,
+         -1.0151, -0.9460, -0.9284]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:127
+oneyr_surv_test: [-3.7419736]
+y_pred:tensor([[ 7.5131, -0.5333, -1.0525, -0.9079, -0.9466, -1.0335, -1.0115, -0.9414,
+         -0.9966, -1.0468, -1.0237, -1.0518, -0.9543, -0.8901, -1.0324, -1.0182,
+         -1.0151, -0.9458, -0.9282]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:128
+oneyr_surv_test: [-3.7452404]
+y_pred:tensor([[ 7.5141, -0.5328, -1.0525, -0.9078, -0.9464, -1.0339, -1.0114, -0.9414,
+         -0.9964, -1.0469, -1.0242, -1.0512, -0.9539, -0.8898, -1.0326, -1.0181,
+         -1.0153, -0.9457, -0.9281]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:129
+oneyr_surv_test: [-3.7431023]
+y_pred:tensor([[ 7.5106, -0.5345, -1.0531, -0.9079, -0.9465, -1.0327, -1.0121, -0.9429,
+         -0.9972, -1.0478, -1.0194, -1.0489, -0.9557, -0.8906, -1.0342, -1.0176,
+         -1.0171, -0.9460, -0.9278]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]], device='cuda:1')
+subj_num:130
+oneyr_surv_test: [-3.751242]
+y_pred:tensor([[ 7.5136, -0.5328, -1.0530, -0.9073, -0.9462, -1.0336, -1.0116, -0.9413,
+         -0.9972, -1.0470, -1.0239, -1.0520, -0.9541, -0.8901, -1.0325, -1.0184,
+         -1.0153, -0.9462, -0.9280]], device='cuda:1',
+       grad_fn=<SqueezeBackward1>)
+labels:tensor([[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device='cuda:1')
+subj_num:131
+oneyr_surv_test: [-3.7406447]
+df_DL_score_test.shape:(132, 20)
+132
+duration_test.shape:(132,)
+oneyr_survs_test.shape:(132,)
+event_test.shape:(132,)
+Original C-index for valid: 0.4566
+95% CI for C-index for valid: (0.3925, 0.5252)
+BS score at 365:[20.61881654]
+seq range:min -19.66729164123535-max 1296.5587158203125
+seq range:min -110.31443786621094-max 2376.626220703125
+seq range:min -86.1859130859375-max 2738.498779296875
+seq range:min 0.0-max 3345.15869140625
+x.shape:torch.Size([1, 4, 224, 224, 224])
+selected_seq:t1ce, 2
+args.attention_map_dir:/mnt/hdd3/mskim/GBL/code/experiment/attention_maps/2023_12_11_15_48_SNUH_ext_severance
