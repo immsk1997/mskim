@@ -1,4 +1,4 @@
-# SE-ResNext50, DenseNet-121, ResNet50-CBAM Results From New MRI DataSet
+# SE-ResNext50, DenseNet-121, ResNet50-CBAM, Vision Transformer Results From New MRI DataSet
 
 SEResNext50
 'OS ALL'
@@ -195,3 +195,23 @@ BS score at 365:[0.20257639]
 Original C-index for valid: 0.6754
 95% CI for C-index for valid: (0.5823, 0.7631)
 BS score at 365:[0.19136755]
+
+VisionTransformer
+'''OS ALL'''
+<test_inference> (* loss function = Cross Entropy)
+Original C-index for valid: 0.4566
+95% CI for C-index for valid: (0.3925, 0.5252)
+BS score at 365:[20.61881654]
+
+'''OS GBL'''
+
+'''1YR ALL'''
+<test_inference>
+Original C-index for valid: 0.5660
+95% CI for C-index for valid: (0.4513, 0.6720)
+BS score at 365:[1.02490639e+37]
+
+'''1YR GBL'''
+<test_inference>
+Original C-index for valid: 0.4888
+95% CI for C-index for valid: (0.3807, 0.6029)
