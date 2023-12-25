@@ -7,19 +7,49 @@
 # https://kmhana.tistory.com/27
 # https://m.blog.naver.com/nueyet/222984347342
 
-#%%
+'''Import API & Library'''
+import warnings
+warnings.simplefilter("ignore", UserWarning)
+import argparse
+
+import math
+from torchsummary import summary as summary
+
+import torch # For building the networks 
+import torch.nn as nn
+import torch.nn.functional as F
+
+import monai
+from monai.networks.nets import *
+
+from utils import *
+from attention_models import *
+from vit_3d import *
+
+from adamp import AdamP
+
+from lifelines import KaplanMeierFitter
+from lifelines import CoxPHFitter
+from lifelines.utils import concordance_index
+
+from medcam import medcam
+from medcam import *
+
+from skimage.transform import resize
+from scipy import ndimage
+
 '''Deep Learning HyperParameter, Computer Resource Setting'''
 def get_args_parser(add_help=True):
     parser = argparse.ArgumentParser(description='Deep survival GBL: image only', add_help=add_help)
     parser.add_argument('--gpu_id', type=int, default=0)
     parser.add_argument('--test_gpu_id', type=int, default=1)
-    parser.add_argument('--epochs', type=int, default=200)
+    parser.add_argument('--epochs', type=int, default=100)
     parser.add_argument('--seed', type=int, default=123456) # 12347541
     parser.add_argument('--spec_patho', type=str, default='all') # 'GBL' # 
     parser.add_argument('--spec_duration', type=str, default='1yr') # 'OS' # 
     parser.add_argument('--spec_event', type=str, default='death') # 'death' # 
     parser.add_argument('--ext_dataset_name', type=str, default='severance') # 'TCGA' # 
-    parser.add_argument('--dataset_list', nargs='+', default=['SNUH','UCSF','UPenn','TCGA'], help='selected_training_datasets') # ,'TCGA'
+    parser.add_argument('--dataset_list', nargs='+', default=['UCSF','UPenn','TCGA','SNUH'], help='selected_training_datasets')
     parser.add_argument('--remove_idh_mut', default=False, type=str2bool)
     parser.add_argument('--save_grad_cam', default=False, type=str2bool)
     parser.add_argument('--biopsy_exclusion', default=False, type=str2bool)
@@ -58,7 +88,7 @@ print(f'Training on GPU {gpu_id}')
 device = torch.device(f'cuda:{gpu_id}' if torch.cuda.is_available() else 'cpu')
 
 #%%
-os.environ['MKL_THREADING_LAYER'] = 'GNU'
+os.environ['MKL_THREADING_LAYER'] = 'GNU' # in Linux, I had to write a script to call "export MKL_THREADING_LAYER=GNU" (which sets that environment variable) each time I activate the virtual environment, and a counter script to undo that change upon exiting the environment.
 set_seed(main_args.seed)
 print(f'Setting seed:{main_args.seed}')
 
@@ -67,8 +97,10 @@ to_np = lambda x: x.detach().cpu().numpy()
 to_cuda = lambda x: torch.from_numpy(x).float().device()
 os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
 torch.cuda.empty_cache()
+# print(get_dir(DATA_DIR))
 
 #%%
+'''Label Preparation & K-fold (10-fold)'''
 df = save_label_dataset_list(main_args, args)
 ext_df = save_label_ext_dataset(main_args, args)
 
@@ -79,6 +111,7 @@ df_proc_labels_test, event_test, duration_test = make_kfold_df_proc_labels(main_
 
 #%%
 '''Train / Valid Model 설정'''
+
 if args.net_architect == 'SEResNext50':
   print(f'train transform:')
   args.train_transform = get_transform(args, f'{args.dataset_name}')
@@ -113,24 +146,71 @@ elif args.net_architect == 'resnet50_cbam':
   model = CustomNetwork(args, base_model = base_model).to(device)
 
 elif args.net_architect == 'VisionTransformer':
-  model = VisionTransformer(args=args, in_chans=4, num_classes=args.n_intervals).to(device)
+  print(f'train transform:')
+  args.train_transform = get_transform_vit(args, f'{args.dataset_name}')
+  print(f'valid transform:')
+  args.valid_transform = get_transform_vit(args, f'{args.dataset_name}')
+  print(f'test transform:')
+  test_transform = get_transform_vit(args, f'{main_args.ext_dataset_name}')
+  
+  model = vit_gbm_patch32(args=args, num_classes=args.n_intervals).to(device) # vit_glioma_type_classifier(args=args)
 
 '''Optimizer, Loss Function'''
 base_optimizer = AdamP
 optimizer = SAM(model.parameters(), base_optimizer, lr=args.lr, weight_decay=args.weight_decay)
-criterion = nnet_loss # TaylorCrossEntropyLoss(n=2,smoothing=0.2)
+
+criterion = cox_partial_likelihood # nnet_loss # cox_partial_likelihood # TaylorCrossEntropyLoss(n=2, smoothing=0.2)
+
+if model == vit_glioma_type_classifier(args=args):
+  criterion = TaylorCrossEntropyLoss(n=2, smoothing=0.2)
+
 scheduler = fetch_scheduler(optimizer)
 
 '''Training (Internal DataSet)'''
 if not main_args.save_grad_cam:
-  
   if args.net_architect =='VisionTransformer':
     model, history = run_fold_vit(df_proc_labels_train, args, model, criterion, optimizer, scheduler, device=device, fold=0, num_epochs=main_args.epochs)
   else:
     model, history = run_fold(df_proc_labels_train, args, model, criterion, optimizer, scheduler, device=device, fold=0, num_epochs=main_args.epochs)
 
+'''ViT Fine-Tuning'''
+if args.net_architect =='VisionTransformer':
+  if model == vit_glioma_type_classifier(args=args):
+    pretrained_base = vit_glioma_type_classifier(args=args)
+    pretrained_model = load_ckpt(args,pretrained_base)
+    
+    cls_extractor = ClsExtractor(pretrained_model)
+    surv_pred_layer = nn.Linear(cls_extractor.embed_dim,args.n_intervals)
+    
+    class CustomViT(nn.Module):
+      def __init__(self,cls_extractor,surv_pred_layer):
+        super().__init__()
+        self.cls_extractor = cls_extractor
+        self.surv_pred_layer = surv_pred_layer
+        
+      def forward(self,x):
+        _to_cls_layer = self.cls.extractor.forward_features(x)
+        final_output = self.surv_pred_layer(_to_cls_layer)
+        
+        return torch.pow(torch.sigmoid(final_output), torch.exp(final_output))
+      
+    fine_tuning_model = CustomViT(cls_extractor,surv_pred_layer)
+    fine_tuning_base_optimizer = AdamP
+    fine_tuning_optimizer = SAM(fine_tuning_model.parameters(), fine_tuning_base_optimizer, lr=args.lr, weight_decay=args.weight_decay)
+
+    fine_tuning_criterion = cox_partial_likelihood 
+
+    fine_tuning_scheduler = fetch_scheduler(fine_tuning_optimizer)
+
+    if not main_args.save_grad_cam:
+      if args.net_architect =='VisionTransformer':
+        if fine_tuning_model == CustomViT(cls_extractor , surv_pred_layer):
+          fine_tuning_model, history = run_fold_vit(df_proc_labels_train, args, fine_tuning_model, fine_tuning_criterion, fine_tuning_optimizer, fine_tuning_scheduler, device=device, fold=0, num_epochs=main_args.epochs)
+else:
+  pass
 # %%
-''' Test Model -> Survival Analysis & Grad_CAM (External DataSet) '''
+''' Downstream Task : Survival Analysis & Grad_CAM (External DataSet) '''
+''' grad_CAM, inference.py, train_inference.py in Same Working Directory : Internal (Train / Valid Set) 활용'''
 
 test_gpu_id = main_args.test_gpu_id 
 print(f'Testing on GPU {test_gpu_id}')
@@ -163,7 +243,7 @@ elif args.net_architect == 'resnet50_cbam':
   test_loader = DataLoader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False) # args.batch_size
 
 elif args.net_architect == 'VisionTransformer':
-  model = vit_gbm_patch16(args=args, num_classes=args.n_intervals).to(test_device)
+  model = vit_gbm_patch32(args=args, num_classes=args.n_intervals).to(test_device)
   model = load_ckpt(args, model)
   test_data = ViTDataset(df = df_proc_labels_test, args = args, dataset_name=f'{main_args.ext_dataset_name}')
   test_loader = torch.utils.data.DataLoader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False)
@@ -233,13 +313,16 @@ print(f'95% CI for C-index for valid: ({ci_lower:.4f}, {ci_upper:.4f})')
 score_test = get_BS(event_test, duration_test, oneyr_survs_test)
 
 # %%
-
 ''' grad CAM '''
 # ref: https://github.com/MECLabTUDA/M3d-Cam
 
 plt.switch_backend('agg')
 
-test_img_path='/mnt/hdd3/mskim/GBL/data/severance/resized_BraTS/Sev001/'
+test_img_path='/mnt/hdd3/mskim/GBL/data/SNUH/resized_BraTS/79659321/'
+
+if args.net_architect =='VisionTransformer':
+  test_img_path = '/mnt/hdd3/mskim/GBL/data/SNUH/VIT/resized_BraTS/79659321'
+
 seqs = []
 for seq in ['t1','t2','flair','t1ce']:
   seq=nib.load(os.path.join(test_img_path, f'{seq}_resized.nii.gz')).get_fdata() 
@@ -262,7 +345,6 @@ selected_seq_idx = seq_idx_dict[selected_seq]
 print(f'selected_seq:{selected_seq}, {selected_seq_idx}')
 
 #%%
-
 print(f'args.attention_map_dir:{args.attention_map_dir}')
 
 slice_3d = lambda x: x[selected_seq_idx,:,:,:]
