@@ -48,8 +48,8 @@ def get_args_parser(add_help=True):
     parser.add_argument('--spec_patho', type=str, default='all') # 'GBL' # 
     parser.add_argument('--spec_duration', type=str, default='1yr') # 'OS' # 
     parser.add_argument('--spec_event', type=str, default='death') # 'death' # 
-    parser.add_argument('--ext_dataset_name', type=str, default='severance') # 'TCGA' # 
-    parser.add_argument('--dataset_list', nargs='+', default=['UCSF','UPenn','TCGA','SNUH'], help='selected_training_datasets')
+    parser.add_argument('--ext_dataset_name', type=str, default='SNUH') # 'TCGA' # 
+    parser.add_argument('--dataset_list', nargs='+', default=['UCSF','UPenn','TCGA','severance'], help='selected_training_datasets')
     parser.add_argument('--remove_idh_mut', default=False, type=str2bool)
     parser.add_argument('--save_grad_cam', default=False, type=str2bool)
     parser.add_argument('--biopsy_exclusion', default=False, type=str2bool)
@@ -146,24 +146,12 @@ elif args.net_architect == 'resnet50_cbam':
   model = CustomNetwork(args, base_model = base_model).to(device)
 
 elif args.net_architect == 'VisionTransformer':
-  print(f'train transform:')
-  args.train_transform = get_transform_vit(args, f'{args.dataset_name}')
-  print(f'valid transform:')
-  args.valid_transform = get_transform_vit(args, f'{args.dataset_name}')
-  print(f'test transform:')
-  test_transform = get_transform_vit(args, f'{main_args.ext_dataset_name}')
-  
   model = vit_gbm_patch32(args=args, num_classes=args.n_intervals).to(device) # vit_glioma_type_classifier(args=args)
 
 '''Optimizer, Loss Function'''
 base_optimizer = AdamP
 optimizer = SAM(model.parameters(), base_optimizer, lr=args.lr, weight_decay=args.weight_decay)
-
-criterion = cox_partial_likelihood # nnet_loss # cox_partial_likelihood # TaylorCrossEntropyLoss(n=2, smoothing=0.2)
-
-if model == vit_glioma_type_classifier(args=args):
-  criterion = TaylorCrossEntropyLoss(n=2, smoothing=0.2)
-
+criterion = nnet_loss # nnet_loss # cox_partial_likelihood # TaylorCrossEntropyLoss(n=2, smoothing=0.2)
 scheduler = fetch_scheduler(optimizer)
 
 '''Training (Internal DataSet)'''
@@ -172,42 +160,6 @@ if not main_args.save_grad_cam:
     model, history = run_fold_vit(df_proc_labels_train, args, model, criterion, optimizer, scheduler, device=device, fold=0, num_epochs=main_args.epochs)
   else:
     model, history = run_fold(df_proc_labels_train, args, model, criterion, optimizer, scheduler, device=device, fold=0, num_epochs=main_args.epochs)
-
-'''ViT Fine-Tuning'''
-if args.net_architect =='VisionTransformer':
-  if model == vit_glioma_type_classifier(args=args):
-    pretrained_base = vit_glioma_type_classifier(args=args)
-    pretrained_model = load_ckpt(args,pretrained_base)
-    
-    cls_extractor = ClsExtractor(pretrained_model)
-    surv_pred_layer = nn.Linear(cls_extractor.embed_dim,args.n_intervals)
-    
-    class CustomViT(nn.Module):
-      def __init__(self,cls_extractor,surv_pred_layer):
-        super().__init__()
-        self.cls_extractor = cls_extractor
-        self.surv_pred_layer = surv_pred_layer
-        
-      def forward(self,x):
-        _to_cls_layer = self.cls.extractor.forward_features(x)
-        final_output = self.surv_pred_layer(_to_cls_layer)
-        
-        return torch.pow(torch.sigmoid(final_output), torch.exp(final_output))
-      
-    fine_tuning_model = CustomViT(cls_extractor,surv_pred_layer)
-    fine_tuning_base_optimizer = AdamP
-    fine_tuning_optimizer = SAM(fine_tuning_model.parameters(), fine_tuning_base_optimizer, lr=args.lr, weight_decay=args.weight_decay)
-
-    fine_tuning_criterion = cox_partial_likelihood 
-
-    fine_tuning_scheduler = fetch_scheduler(fine_tuning_optimizer)
-
-    if not main_args.save_grad_cam:
-      if args.net_architect =='VisionTransformer':
-        if fine_tuning_model == CustomViT(cls_extractor , surv_pred_layer):
-          fine_tuning_model, history = run_fold_vit(df_proc_labels_train, args, fine_tuning_model, fine_tuning_criterion, fine_tuning_optimizer, fine_tuning_scheduler, device=device, fold=0, num_epochs=main_args.epochs)
-else:
-  pass
 # %%
 ''' Downstream Task : Survival Analysis & Grad_CAM (External DataSet) '''
 ''' grad_CAM, inference.py, train_inference.py in Same Working Directory : Internal (Train / Valid Set) 활용'''
@@ -318,10 +270,11 @@ score_test = get_BS(event_test, duration_test, oneyr_survs_test)
 
 plt.switch_backend('agg')
 
-test_img_path='/mnt/hdd3/mskim/GBL/data/SNUH/resized_BraTS/79659321/'
-
 if args.net_architect =='VisionTransformer':
-  test_img_path = '/mnt/hdd3/mskim/GBL/data/SNUH/VIT/resized_BraTS/79659321'
+  test_img_path = '/mnt/hdd3/mskim/GBL/data/SNUH/VIT/resized_BraTS/10953822/'
+
+elif args.net_architect =='DenseNet' or 'SEResNext50' or 'resnet50-cbam':
+  test_img_path='/mnt/hdd3/mskim/GBL/data/SNUH/resized_BraTS/10953822/'
 
 seqs = []
 for seq in ['t1','t2','flair','t1ce']:
