@@ -135,7 +135,7 @@ if not main_args.save_grad_cam:
       self.surv_pred_layer = surv_pred_layer
         
     def forward(self,x):
-      _to_cls_layer = self.cls.extractor.forward_features(x)
+      _to_cls_layer = self.cls_extractor.forward_features(x)
       final_output = self.surv_pred_layer(_to_cls_layer)
         
       return torch.pow(torch.sigmoid(final_output), torch.exp(final_output))
@@ -182,11 +182,11 @@ df_DL_score_test.insert(n_intervals, 'oneyr_survs_test', '')
 
 oneyr_survs_test = []
 for subj_num, (inputs,labels) in enumerate(test_loader):
-  model.eval()
+  fine_tuning_model.eval()
   inputs = inputs.to(test_device)
   labels = labels.to(test_device)
 
-  y_pred = model(inputs) # torch.Size([4, 19])
+  y_pred = fine_tuning_model(inputs) # torch.Size([4, 19])
   print(f'y_pred.size:{y_pred.size()}')
   print(f'y_pred:{y_pred}')
   print(f'labels.size:{labels.size()}')
