@@ -1,3 +1,6 @@
+"""code Ref"""
+# https://github.com/huggingface/pytorch-image-models/blob/main/timm/models/vision_transformer.py
+
 import math
 from functools import partial
 from itertools import repeat

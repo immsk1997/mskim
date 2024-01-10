@@ -1,7 +1,3 @@
-"""code Ref"""
-# https://github.com/huggingface/pytorch-image-models/blob/main/timm/models/vision_transformer.py
-# https://github.com/kyuchoi/3D_MRI_survival_glioma/tree/main/model/utils.py
-
 """Paper & Ref"""
 # https://arxiv.org/abs/2010.11929 -> An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale
 # https://kmhana.tistory.com/27
@@ -22,9 +18,9 @@ import torch.nn.functional as F
 import monai
 from monai.networks.nets import *
 
-from utils import *
+from utils_tuning import *
 from attention_models import *
-from vit_3d import *
+from vit_3d_tuning import *
 
 from adamp import AdamP
 

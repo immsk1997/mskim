@@ -1,3 +1,6 @@
+"""code Ref"""
+# https://github.com/kyuchoi/3D_MRI_survival_glioma/tree/main/model/utils.py
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -831,38 +834,6 @@ def get_transform(args, dataset_name):
   return basic_transform
 
 #%%
-def get_transform_vit(args, dataset_name):
-  
-  if dataset_name == 'SNUH_UPenn_TCGA':
-    landmark_dataset_name = 'SNUH_UPenn_TCGA' # train/valid/test=0.75/0.72/0.69 # 
-    print(f'landmark_dataset_name:{landmark_dataset_name}')
-  else:
-    landmark_dataset_name = dataset_name
-    print(f'landmark_dataset_name:{landmark_dataset_name}')
-  
-  landmarks_dir = os.path.join(args.data_dir, 'histograms', landmark_dataset_name,"VIT")
-  
-  landmarks = {}
-  for seq in args.sequence:
-    
-    seq_landmarks_path = os.path.join(landmarks_dir, f'{seq}_histgram.npy')
-    landmarks[f'{seq}'] = seq_landmarks_path
-  
-  # print(f'landmarks:{list(landmarks.keys())}') # ['t1', 't2', 't1ce', 'flair']
-    
-  basic_transforms = [
-      tio.HistogramStandardization(landmarks), 
-      # tio.ZNormalization() # (masking_method=lambda x: x > 0) # x.mean() # # NOT working: RuntimeError: Standard deviation is 0 for masked values in image    
-  ]
-
-  basic_transform = tio.Compose(basic_transforms)
-  # aug_transform = Compose(aug_transforms)
-  
-  print(f'transform for {dataset_name} was obtained')
-  
-  return basic_transform
-
-#%%
 def load_ckpt(args, model):
   ckpt_dir = os.path.join(os.getcwd(), 'saved_models', f'{args.net_architect}')
   os.makedirs(ckpt_dir, exist_ok = True)
@@ -1403,56 +1374,7 @@ class SAM(torch.optim.Optimizer):
                     p=2
                )
         return norm
-
-class FeatureExtractor():
-    """ Class for extracting activations and
-    registering gradients from targetted intermediate layers """
-
-    def __init__(self, model, target_layers):
-        self.model = model
-        self.target_layers = target_layers
-        self.gradients = []
-
-    def save_gradient(self, grad):
-        self.gradients.append(grad)
-
-    def __call__(self, x):
-        outputs = []
-        self.gradients = []
-        for name, module in self.model._modules.items():
-            x = module(x)
-            if name in self.target_layers:
-                x.register_hook(self.save_gradient)
-                outputs += [x]
-        return outputs, x
-
-class ModelOutputs():
-    """ Class for making a forward pass, and getting:
-    1. The network output.
-    2. Activations from intermeddiate targetted layers.
-    3. Gradients from intermeddiate targetted layers. """
-
-    def __init__(self, model, feature_module, target_layers):
-        self.model = model
-        self.feature_module = feature_module
-        self.feature_extractor = FeatureExtractor(self.feature_module, target_layers)
-
-    def get_gradients(self):
-        return self.feature_extractor.gradients
-
-    def __call__(self, x):
-        target_activations = []
-        for name, module in self.model._modules.items():
-            if module == self.feature_module:
-                target_activations, x = self.feature_extractor(x)
-            elif "avgpool" in name.lower():
-                x = module(x)
-                x = x.view(x.size(0),-1)
-            else:
-                x = module(x)
-
-        return target_activations, x
-
+    
 def preprocess_image(img):
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
@@ -1520,82 +1442,6 @@ class GradCam:
         cam = cam - np.min(cam)
         cam = cam / np.max(cam)
         return cam
-
-
-class GuidedBackpropReLU(Function):
-    @staticmethod
-    def forward(self, input_img):
-        positive_mask = (input_img > 0).type_as(input_img)
-        output = torch.addcmul(torch.zeros(input_img.size()).type_as(input_img), input_img, positive_mask)
-        self.save_for_backward(input_img, output)
-        return output
-
-    @staticmethod
-    def backward(self, grad_output):
-        input_img, output = self.saved_tensors
-        grad_input = None
-
-        positive_mask_1 = (input_img > 0).type_as(grad_output)
-        positive_mask_2 = (grad_output > 0).type_as(grad_output)
-        grad_input = torch.addcmul(torch.zeros(input_img.size()).type_as(input_img),
-                                   torch.addcmul(torch.zeros(input_img.size()).type_as(input_img), grad_output,
-                                                 positive_mask_1), positive_mask_2)
-        return grad_input
-
-
-class GuidedBackpropReLUModel:
-    def __init__(self, model, use_cuda):
-        self.model = model
-        self.model.eval()
-        self.cuda = use_cuda
-        if self.cuda:
-            self.model = model.cuda()
-
-        def recursive_relu_apply(module_top):
-            for idx, module in module_top._modules.items():
-                recursive_relu_apply(module)
-                if module.__class__.__name__ == 'ReLU':
-                    module_top._modules[idx] = GuidedBackpropReLU.apply
-
-        # replace ReLU with GuidedBackpropReLU
-        recursive_relu_apply(self.model)
-
-    def forward(self, input_img):
-        return self.model(input_img)
-
-    def __call__(self, input_img, target_category=None):
-        if self.cuda:
-            input_img = input_img.cuda()
-
-        input_img = input_img.requires_grad_(True)
-
-        output = self.forward(input_img)
-
-        if target_category == None:
-            target_category = np.argmax(output.cpu().data.numpy())
-
-        one_hot = np.zeros((1, output.size()[-1]), dtype=np.float32)
-        one_hot[0][target_category] = 1
-        one_hot = torch.from_numpy(one_hot).requires_grad_(True)
-        if self.cuda:
-            one_hot = one_hot.cuda()
-
-        one_hot = torch.sum(one_hot * output)
-        one_hot.backward(retain_graph=True)
-
-        output = input_img.grad.cpu().data.numpy()
-        output = output[0, :, :, :]
-
-        return output
-
-def deprocess_image(img):
-    """ see https://github.com/jacobgil/keras-grad-cam/blob/master/grad-cam.py#L65 """
-    img = img - np.mean(img)
-    img = img / (np.std(img) + 1e-5)
-    img = img * 0.1
-    img = img + 0.5
-    img = np.clip(img, 0, 1)
-    return np.uint8(img*255)
 
 # BS at 1yr
 def get_BS(event, duration, oneyr_survs, duration_set=365):

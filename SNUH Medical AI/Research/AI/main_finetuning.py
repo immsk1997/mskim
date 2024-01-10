@@ -15,9 +15,9 @@ import torch.nn.functional as F
 import monai
 from monai.networks.nets import *
 
-from utils import *
+from utils_tuning import *
 from attention_models import *
-from vit_3d import *
+from vit_3d_tuning import *
 
 from adamp import AdamP
 
