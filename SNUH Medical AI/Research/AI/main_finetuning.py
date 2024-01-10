@@ -1,4 +1,4 @@
-'''Vision Transformer Fine-Tuning'''
+'''Vision Transformer Fine-Tuning '''
 
 '''Import API & Library'''
 import warnings
@@ -15,9 +15,9 @@ import torch.nn.functional as F
 import monai
 from monai.networks.nets import *
 
-from utils_tuning import *
+from utils import *
 from attention_models import *
-from vit_3d_tuning import *
+from vit_3d import *
 
 from adamp import AdamP
 
@@ -41,8 +41,8 @@ def get_args_parser(add_help=True):
     parser.add_argument('--spec_patho', type=str, default='all') # 'GBL' # 
     parser.add_argument('--spec_duration', type=str, default='1yr') # 'OS' # 
     parser.add_argument('--spec_event', type=str, default='death') # 'death' # 
-    parser.add_argument('--ext_dataset_name', type=str, default='UCSF') # 'TCGA' # 
-    parser.add_argument('--dataset_list', nargs='+', default=['SNUH','UPenn','TCGA','severance'], help='selected_training_datasets')
+    parser.add_argument('--ext_dataset_name', type=str, default='SNUH') # 'TCGA' # 
+    parser.add_argument('--dataset_list', nargs='+', default=['UCSF','UPenn','TCGA','severance'], help='selected_training_datasets')
     parser.add_argument('--remove_idh_mut', default=False, type=str2bool)
     parser.add_argument('--save_grad_cam', default=False, type=str2bool)
     parser.add_argument('--biopsy_exclusion', default=False, type=str2bool)
@@ -103,7 +103,6 @@ df_proc_labels_test, event_test, duration_test = make_kfold_df_proc_labels(main_
 
 '''glioma class label (Pre-Trained)'''
 df_class_labels_train = make_class_df(main_args,args, f'{args.dataset_name}', remove_idh_mut = main_args.remove_idh_mut)
-df_class_labels_test = make_class_df(main_args,args, f'{main_args.ext_dataset_name}', remove_idh_mut = main_args.remove_idh_mut)
 
 #%%
 '''Train / Valid Model 설정'''
@@ -114,21 +113,25 @@ if args.net_architect == 'VisionTransformer' and args.finetuning_type == "classi
 '''Optimizer, Loss Function'''
 base_optimizer = AdamP
 optimizer = SAM(model.parameters(), base_optimizer, lr=args.lr, weight_decay=args.weight_decay)
-criterion = TaylorCrossEntropyLoss(n=2, smoothing=0.2) 
+criterion = TaylorCrossEntropyLoss(n=2, smoothing=0.2)
 scheduler = fetch_scheduler(optimizer)
 
 '''Training (Internal DataSet)'''
 if not main_args.save_grad_cam:
-  model, history = train_classification(df_class_labels_train, args, model, criterion, optimizer, scheduler, device=device, fold=0, num_epochs=main_args.epochs)
+  model, history = train_classification(df_class_labels_train, args, model, criterion, optimizer, scheduler, device=device, num_epochs=main_args.epochs)
 
-  '''ViT Fine-Tuning'''
-  pretrained_base = vit_glioma_type_classifier(args=args)
+'''ViT Fine-Tuning'''
+if not main_args.save_grad_cam:
+  pretrained_base = vit_glioma_type_classifier(args=args).to(device)
   pretrained_model = load_ckpt(args,pretrained_base)
+  
+  for param in pretrained_model.parameters():
+    param.requires_grad = False
     
   cls_extractor = ClsExtractor(pretrained_model)
   surv_pred_layer = nn.Linear(cls_extractor.embed_dim,args.n_intervals)
     
-  class CustomViT(nn.Module):
+  class FineTuningViT(nn.Module):
     def __init__(self,cls_extractor,surv_pred_layer):
       super().__init__()
       self.cls_extractor = cls_extractor
@@ -140,11 +143,11 @@ if not main_args.save_grad_cam:
         
       return torch.pow(torch.sigmoid(final_output), torch.exp(final_output))
       
-  fine_tuning_model = CustomViT(cls_extractor,surv_pred_layer).to(device)
+  fine_tuning_model = FineTuningViT(cls_extractor,surv_pred_layer).to(device)
   fine_tuning_base_optimizer = AdamP
   fine_tuning_optimizer = SAM(fine_tuning_model.parameters(), fine_tuning_base_optimizer, lr=args.lr, weight_decay=args.weight_decay)
 
-  fine_tuning_criterion = cox_partial_likelihood 
+  fine_tuning_criterion = nnet_loss
 
   fine_tuning_scheduler = fetch_scheduler(fine_tuning_optimizer)
 
@@ -164,7 +167,7 @@ df_proc_labels_test = pd.read_csv(proc_label_path_test, dtype='string')
 df_proc_labels_test = df_proc_labels_test.set_index('ID')
 
 if args.net_architect == "VisionTransformer" and args.finetuning_type =="classifier":
-  fine_tuning_model = CustomViT(cls_extractor , surv_pred_layer).to(test_device)
+  fine_tuning_model = FineTuningViT(cls_extractor , surv_pred_layer).to(test_device)
   fine_tuning_model = load_ckpt(args, fine_tuning_model)
   test_data = ViTDataset(df = df_proc_labels_test, args = args, dataset_name=f'{main_args.ext_dataset_name}')
   test_loader = torch.utils.data.DataLoader(dataset=test_data, batch_size=1, num_workers=4, pin_memory=True, shuffle=False)

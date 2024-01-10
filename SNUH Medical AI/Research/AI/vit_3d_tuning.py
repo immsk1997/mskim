@@ -1,5 +1,5 @@
-"""code Ref"""
-# https://github.com/huggingface/pytorch-image-models/blob/main/timm/models/vision_transformer.py
+'''code ref'''
+# https://github.com/huggingface/pytorch-image-models
 
 import math
 from functools import partial
@@ -42,6 +42,7 @@ class ClsExtractor(nn.Module):
       self.pos_embed = model.pos_embed
       self.blocks = model.blocks
       self.cls_norm = model.cls_norm
+      self.embed_dim = model.patch_embed.proj.out_channels
   
   def forward_features(self, x, img_con=None):
     B = x.shape[0]
