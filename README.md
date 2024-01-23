@@ -6,7 +6,9 @@
 
 **Statistics (SNUH)**
 
-<a href="https://github.com/immsk1997/mskim/blob/main/SNUH%20Medical%20AI/Research/Statistics/ASNR%20Abstract.pdf">**Click Abstract (2024 ASNR Waiting For Approval)**</a>
+I participated as a co-author in the gbm survival prediction project, led by Professor Choi Kyu Sung at Seoul National University Hospital, under the guidance of the first author, Professor Lee Kyung Hoon at Soonchunhyang University. However, the project was recently rejected by the 2024 ASNR (American Society of Neuroradiology) journal.
+
+<a href="https://github.com/immsk1997/mskim/blob/main/SNUH%20Medical%20AI/Research/Statistics/ASNR%20Abstract.pdf">**Abstract(Reject)**</a>
 
 
 **AI (SNUH)**
