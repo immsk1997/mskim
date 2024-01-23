@@ -3,6 +3,9 @@
 # https://kmhana.tistory.com/27
 # https://m.blog.naver.com/nueyet/222984347342
 
+'''code Ref'''
+# https://github.com/kyuchoi/3D_MRI_survival_glioma/model/main/main.py
+
 '''Import API & Library'''
 import warnings
 warnings.simplefilter("ignore", UserWarning)
