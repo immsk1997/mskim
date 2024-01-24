@@ -1,6 +1,6 @@
-# Curriculum Vitae (Min Soo Kim)
+# Portfolio (Min Soo Kim)
 
-## Bachelor of Science, Department of Industry Engineering.
+## Bachelor of Engineering, Department of Industry Engineering.
 
 ## Shortcuts
 
@@ -20,10 +20,6 @@ I participated as a co-author in <a href="https://github.com/immsk1997/mskim/blo
 
 
 ## Introduce
-
-Hello, my name is Min Soo Kim.
-
-
 One of my strengths is that I have worked with diverse data domains in various fields. I conducted a ```2D Image-Classification Task``` on electric vehicle batteries, focusing on *"High-Precision Electric Vehicle Battery Defect Classification."* I utilized and optimized pre-trained models in the Tensorflow framework for this task.
 
 
