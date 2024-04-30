@@ -1,5 +1,5 @@
-# Portfolio (Min Soo Kim)
-Linkedin : <a href="https://www.linkedin.com/in/immsk1997/"></a>
+# Portfolio
+Linkedin : <a href="https://www.linkedin.com/in/immsk1997/">**Minsoo Kim**</a>
 ## Bachelor of Engineering, Department of Industry Engineering.
 
 ## Shortcuts
