@@ -1,4 +1,4 @@
-**고빈도 매매 기반 호가, 체결 데이터 활용 (FnGuide, Bloomberg)**
+# **고빈도 매매 기반 호가, 체결 데이터 활용 (FnGuide, Bloomberg)**
 
 [협업 성과 (협업 : MLOps팀)]
 - 시장미시구조 기반 금융공학 지표 검수 자동화 프로세스 설계 (Data Pipeline)
