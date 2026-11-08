@@ -1,12 +1,10 @@
 # 전기차 배터리 2d-image 기반 불량 유형 분류 및 예측
 
-Title : 초정밀 배터리 단자 불량 유형 판정 딥러닝 모델 최적화
-
-
 Prize : 한국교통대학교 산업공학과 컨퍼런스 대상 (공과대학장)
 
 
 keywords : 2D-CNN, Image-classification
+
 
 <img src ="https://github.com/immsk1997/mskim/blob/main/KNUT%20AI%20Laboratory/Paper/%ED%95%9C%EA%B5%AD%EA%B5%90%ED%86%B5%EB%8C%80%ED%95%99%EA%B5%90%20%EC%BB%A8%ED%8D%BC%EB%9F%B0%EC%8A%A4%20%EB%8C%80%EC%83%81.png" width="350" height="400">
 
@@ -19,12 +17,9 @@ keywords : 2D-CNN, Image-classification
 
 이에 따라 앞으로 배터리의 품질이 더욱 중요해질 것이라고 생각했습니다.
 
-이러한 생각을 기반으로 2D Image-Classification Task를 수행했습니다.
-
-
 ## 데이터셋 구성
 
-"데이터는 서울에 위치한 모 반도체 업체에서 5가지 유형의 전기차 배터리 원본 이미지 500장을 제공받았습니다"
+"데이터는 서울 소재 반도체 업체에서 5가지 유형의 전기차 배터리 원본 이미지 500장을 제공받았습니다"
 
 
 DataSet 1(preprocess x, img_aug x)
@@ -40,9 +35,6 @@ DataSet 4(cv.crop, img_aug o)
 
 
 ## 간략소개 
-
-교내 AI 연구실 프로젝트 일환으로써,
-Tensorflow 프레임워크의 Keras API, Keras Lib 활용
 
 Standard CNN 알고리즘을 활용하여 Spatial dimension, Feature dimension을 함께 학습하는 방식입니다.
 

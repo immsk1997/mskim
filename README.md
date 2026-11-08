@@ -1,26 +1,21 @@
-# Co-work
+# 자기소개
+
+프로덕트와 서비스의 안정적이고 효율적인 운영 구조를 설계하는 역할로 성장하고자 합니다.
+
+## Co-work
 <a href="https://github.com/kyuchoi/3D_MRI_survival_glioma">**3D_MRI_survival_glioma (Github)**</a>
 
 <a href="https://hub.docker.com/search?q=snuhradaicon">**3D_MRI_survival_glioma (Dockerhub)**</a>
 
 ## Shortcuts
 
-**SK Telecom (2024.04 ~ Now / App service, AI Agent, LLM)**
+**NOL UNIVERSE (Yanolja, Interpark) **
 
-**SNUH (2023.09 ~ 2024.01 / AI, Deep Learning, Computer Vision)**
+**SK Telecom **
 
-**NCSOFT (2022.12 ~ 2023.06 / Data Engineering)**
+**SNUH**
+
+**NCSOFT **
 
 ## Goal
-**Product Manager, Product Owner**
-
-## Experience
-```AI (DL/ML)```
-
-```Data Analysis```
-
-```Data Engineering```
-
-```Project Management (AI)```
-
-```Product (app service operations)```
+**Operation Manager - Product Manager - Product Owner**

@@ -1,8 +1,5 @@
 # AI (Deep Learning, Image Processing)
 
-[개인 연구 성과]
-- 의료영상 AI 기반 교모세포종 환자 생존율 예측 모델 개발 (Deep Learning)
-
 [개인 연구]
 - 뇌 MRI 영상 데이터와 3D Vision Transformer 알고리즘을 활용한 교모세포종 환자의 생존율 예측
 
